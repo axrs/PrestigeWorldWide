@@ -2,39 +2,80 @@
 
 namespace Statamic\Addons\PrestigeWorldWide;
 
+// use Statamic\API\Str;
+// use Statamic\API\File;
+// use Statamic\API\YAML;
+// use Statamic\API\Nav;
+// use Statamic\Extend\Listener;
+// use Statamic\Events\Data\FindingFieldset;
+
+use Statamic\API\Str;
+use Statamic\API\File;
+use Statamic\API\YAML;
 use Statamic\API\Nav;
+use Statamic\API\Collection;
 use Statamic\Extend\Listener;
+use Statamic\Events\Data\FindingFieldset;
+use Illuminate\Support\Facades\Cache;
+use Statamic\Addons\SeoPro\Sitemap\Sitemap;
 
 class PrestigeWorldWideListener extends Listener
 {
+
     /**
      * The events to be listened for, and the methods to call.
      *
      * @var array
      */
     public $events = [
-        'cp.nav.created' => 'addNavItems',
-        'cp.add_to_head' => 'injectMenuStyles'
+        FindingFieldset::class => 'handle',
     ];
 
-    public function addNavItems($nav)
+    public function handle(FindingFieldset $eventCollection)
     {
-        // Create the first level navigation item
-        // Note: by using route('store'), it assumes you've set up a route named 'store'.
-        $events = Nav::item('Events')->route('addons.events')->icon('calendar');
+        // Get the saved events collection from the settings
+        $this->eventsCollection = $this->getConfig('my_collections_field');
 
-        // Finally, add our first level navigation item
-        // to the navigation under the 'tools' section.
-        $nav->addTo('tools', $events);
+        // Check if the entry is in the correct collection
+        if ($eventCollection->data->collectionName() == $this->eventsCollection) {
+
+            $fieldset = $eventCollection->fieldset;
+            $sections = $fieldset->sections();
+            $fields = YAML::parse(File::get($this->getDirectory().'/resources/fieldsets/content.yaml'))['fields'];
+            // dd($fields['event']['fields']);
+
+            // $eventFields = collect($fields['event']['fields'])->map(function ($field, $key) use ($event) {
+                // $field['placeholder'] = $this->getPlaceholder($key, $field, $event->data);
+                // return $field;
+            // })->all();
+
+            // $fields['event']['fields'] = $this->translateFieldsetFields($eventFields, 'content');
+
+            $sections['event'] = [
+                'display' => 'Event information',
+                'fields' => $fields
+            ];
+
+            $contents = $fieldset->contents();
+            $contents['sections'] = $sections;
+            $fieldset->contents($contents);
+
+        }
     }
 
-    /**
-     * Return a <link> tag containing the addon stylesheet
-     * @return string
-     */
-    public function injectMenuStyles()
+    protected function getPlaceholder($key, $field, $data)
     {
-        $html = $this->css->tag('styles');
-        return $html;
+        if (! $data) {
+            return;
+        }
+
+        $vars = (new TagData)
+            ->with(Settings::load()->get('defaults'))
+            ->with($data->getWithCascade('event', []))
+            ->withCurrent($data)
+            ->get();
+
+        return array_get($vars, $key);
     }
+
 }

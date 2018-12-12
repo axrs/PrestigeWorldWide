@@ -2,13 +2,3 @@ routes:
   /:
     as: addons.events
     uses: index
-  /edit/{event}:
-    as: addons.events.edit
-    uses: edit
-  /create:
-    as: addons.events.create
-    uses: create
-  post@store:
-    as: addons.events.store
-    uses: store
-  /events: PrestigeWorldWideController@getEvents

@@ -1,0 +1,7 @@
+fields:
+  start_date:
+    type: date
+    display: "Start date"
+  end_date:
+    type: date
+    display: "End date"
