@@ -1,6 +1,8 @@
 <template>
     <div class="datetime clearfix">
 
+        <label>{{ title }}</label>
+
     	<button type="button" class="btn btn-default add-date" v-if="!hasDate" @click="addDate" tabindex="0">
     		{{ translate('cp.add_date') }}
     	</button>
@@ -39,6 +41,7 @@ export default {
     mixins: [Fieldtype],
 
     props: {
+        title: String,
         name: String,
         data: {},
         config: { default: function() { return {}; } },
@@ -160,7 +163,7 @@ export default {
             this.calendar = new Calendar({
                 element: $(self.$el).find('.daterange'),
                 current_date: moment(date),
-                earliest_date: this.config.earliest_date || "January 1, 1900",
+                earliest_date: this.config.earliest_date || moment().subtract(1, 'days'),
                 format: {
                     input: this.config.input_format || Statamic.dateFormat,
                     jump_month: 'MMMM',

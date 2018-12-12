@@ -34,7 +34,21 @@
 
         <div class="form-group">
 
-            <pwdatefieldtype></pwdatefieldtype>
+            <div class="row">
+
+                <div class="col-md-2">
+
+                    <pwdatefieldtype title="Start date"></pwdatefieldtype>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <pwdatefieldtype title="End date"></pwdatefieldtype>
+
+                </div>
+
+            </div>
 
         </div>
 
