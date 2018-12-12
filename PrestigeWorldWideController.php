@@ -5,6 +5,7 @@ namespace Statamic\Addons\PrestigeWorldWide;
 use Statamic\Extend\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Statamic\API\Collection;
 
 class PrestigeWorldWideController extends Controller
 {
@@ -13,9 +14,24 @@ class PrestigeWorldWideController extends Controller
      *
      * @return mixed
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->view('index');
+        $event_storage = Storage::files('/site/storage/addons/PrestigeWorldWide');
+        $events = [];
+
+        if (!$event_storage) {
+            return redirect()->route('addons.event.create');
+        }
+
+        foreach ($event_storage as $event) {
+            $add = str_replace('site/storage/addons/PrestigeWorldWide/', '', $event);
+            $add = str_replace('.json', '', $add);
+            $events[] = $add;
+        }
+
+        return $this->view('index', [
+            'events' => $events
+        ]);
     }
 
     /**

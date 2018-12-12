@@ -11,3 +11,4 @@ routes:
   post@store:
     as: addons.events.store
     uses: store
+  /events: PrestigeWorldWideController@getEvents
