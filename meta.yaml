@@ -1,0 +1,6 @@
+name: PrestigeWorldWide
+version: '1.0'
+description: 'Adding an event calendar to Statamic'
+developer: 'Wout Mager'
+developer_url: 'https://woutmager.nl'
+commercial: true
