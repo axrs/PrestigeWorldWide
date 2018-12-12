@@ -1,7 +1,58 @@
 fields:
+  dates:
+    display: "Date & time info"
+    type: section
   start_date:
     type: date
     display: "Start date"
+    width: 50
+    require_time: true
+  has_end_date:
+    type: toggle
+    display: "This event has an end date and/or time"
+    default: false
   end_date:
     type: date
     display: "End date"
+    width: 50
+    show_when:
+      has_end_date: true
+    require_time: true
+  Price:
+    display: "Price info"
+    type: section
+  has_price:
+    type: toggle
+    display: "This event has an entrance fee"
+    instructions: "Otherwise it's free"
+    default: false
+  price:
+    type: text
+    display: "Price"
+    show_when:
+      has_price: true
+  Other_info:
+    type: section
+  event_image:
+    type: assets
+    container: "Event image"
+    instructions: "This image will be used in the event preview"
+    max_files: 1
+  location:
+    type: text
+    display: "Address or location"
+  max_participants:
+    type: text
+    display: "Maximum number of participants"
+  event_url:
+    type: text
+    display: "External url"
+    instructions: "Optional, can be used to point to a signup page or festival site"
+  event_organizer:
+    type: text
+    display: "Organizer"
+    instructions: "Optional"
+  forms:
+    type: suggest
+    mode: prestigeworldwide
+    max_items: 1

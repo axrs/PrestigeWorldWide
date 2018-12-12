@@ -1,11 +1,22 @@
 <?php namespace Statamic\Addons\PrestigeWorldWide;
 
+use Statamic\API\Form;
 use Statamic\Addons\Suggest\Modes\AbstractMode;
 
 class PrestigeWorldWideSuggestMode extends AbstractMode
 {
     public function suggestions()
     {
-        
+
+        $forms = Form::all();
+        $formvalues = [];
+
+        foreach ($forms as $form) {
+            $formvalues[] = (object) [
+                'value' => $form['title'],
+                'text' => $form['title']
+            ];
+        }
+        return $formvalues;
     }
 }

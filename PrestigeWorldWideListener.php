@@ -2,13 +2,6 @@
 
 namespace Statamic\Addons\PrestigeWorldWide;
 
-// use Statamic\API\Str;
-// use Statamic\API\File;
-// use Statamic\API\YAML;
-// use Statamic\API\Nav;
-// use Statamic\Extend\Listener;
-// use Statamic\Events\Data\FindingFieldset;
-
 use Statamic\API\Str;
 use Statamic\API\File;
 use Statamic\API\YAML;
@@ -28,7 +21,7 @@ class PrestigeWorldWideListener extends Listener
      * @var array
      */
     public $events = [
-        FindingFieldset::class => 'handle',
+        FindingFieldset::class => 'handle'
     ];
 
     public function handle(FindingFieldset $eventCollection)
@@ -52,7 +45,7 @@ class PrestigeWorldWideListener extends Listener
             // $fields['event']['fields'] = $this->translateFieldsetFields($eventFields, 'content');
 
             $sections['event'] = [
-                'display' => 'Event information',
+                'display' => 'Event info',
                 'fields' => $fields
             ];
 
