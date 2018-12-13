@@ -20,13 +20,14 @@ fields:
     require_time: true
   Other_info:
     type: section
-  pw_price:
+  pw_costs:
     width: 50
     type: text
-    display: "Price"
-    instructions: "Add anything you want. You can say it's free, 1 dollar, euro or nothing at all"
+    display: "Costs"
+    instructions: "Add anything you want. You can say it's free, 1 dollar, 1 euro or nothing at all"
   pw_image:
     type: assets
+    display: "Image"
     container: "Event image"
     instructions: "This image will be used in the event preview"
     max_files: 1
@@ -43,11 +44,15 @@ fields:
     instructions: "Optional"
   Submissions:
     type: section
-    instructions: Selecting a form will show all submissions here
+  pw_signup:
+    type: pages
+    display: "Is there a signup page?"
+    max_items: 1
   pw_form:
     type: suggest
     mode: prestigeworldwide
     max_items: 1
+    display: "Which form are you using for signups?"
   pw_max_participants:
     type: text
     display: "Maximum number of participants"

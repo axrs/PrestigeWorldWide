@@ -4,6 +4,7 @@ namespace Statamic\Addons\PrestigeWorldWide;
 
 use Statamic\Contracts\Forms\Submission;
 use Statamic\API\Form;
+use Statamic\API\Page;
 use Statamic\Extend\Tags;
 
 class PrestigeWorldWideTags extends Tags
@@ -43,14 +44,14 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:price }} tag
+     * The {{ prestige_world_wide:costs }} tag
      *
      * @return string
      */
-    public function price()
+    public function costs()
     {
-        if (isset($this->context['pw_price'])) {
-            return $this->context['pw_price'];
+        if (isset($this->context['pw_costs'])) {
+            return $this->context['pw_costs'];
         }
     }
 
@@ -91,6 +92,19 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
+     * The {{ prestige_world_wide:signup }} tag
+     *
+     * @return string
+     */
+    public function signup()
+    {
+        if (isset($this->context['pw_signup'])) {
+            $pw_signup_url = Page::find($this->context['pw_signup']);
+            return $pw_signup_url->uri();
+        }
+    }
+
+    /**
      * The {{ prestige_world_wide:form }} tag
      *
      * @return string
@@ -98,19 +112,53 @@ class PrestigeWorldWideTags extends Tags
     public function form()
     {
         if (isset($this->context['pw_form'])) {
-            $form = Form::get($this->context['pw_form']);
+            $pw_form = Form::get($this->context['pw_form']);
             // dd($form);
             return $this->context['pw_form'];
         }
     }
 
-    public $events = ['Form.submission.creating' => 'handle'];
+    // public $events = ['Form.submission.creating' => 'handle'];
+    //
+    // public function handle(Submission $submission)
+    // {
+    //     return [
+    //         'submission' => $submission,
+    //         'errors' => []
+    //     ];
+    // }
 
-    public function handle(Submission $submission)
+    /**
+     * The {{ prestige_world_wide:info }} tag
+     *
+     * @return string|array
+     */
+    public function info()
     {
-        return [
-            'submission' => $submission,
-            'errors' => []
-        ];
+        $html = '<div class="pw_info">';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<strong>Start date:</strong> <span>' . $this->startDate() . '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<strong>End date:</strong> <span>' . $this->endDate() . '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<strong>Cost:</strong> <span>' . $this->costs() . '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<strong>Location:</strong> <span>' . $this->location(). '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
+        $html .= $this->organizer();
+        $html .= '</a>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row" class="pw_info__btn">';
+        $html .= '<a href="' . $this->signup() .  '">';
+        $html .= 'Sign up';
+        $html .= '</a>';
+        $html .= '</div>';
+        $html .= '</div>';
+        return $html;
     }
 }
