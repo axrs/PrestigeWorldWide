@@ -25,13 +25,13 @@ class PrestigeWorldWideFilter extends Filter
         $collection         = Entry::whereCollection($eventsCollection);
 
         if ($to == 'future') {
-
+            // Return future events
             return $collection->filter(function ($entry) {
                 return (new Carbon($entry->get('pw_start_date')))->gt(Carbon::now());
             });
 
         } else if ($to == 'past') {
-
+            // Return past events
             return $collection->filter(function ($entry) {
                 return (new Carbon($entry->get('pw_start_date')))->lt(Carbon::now());
             });
