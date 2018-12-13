@@ -5,6 +5,8 @@ namespace Statamic\Addons\PrestigeWorldWide;
 use Statamic\Contracts\Forms\Submission;
 use Statamic\API\Form;
 use Statamic\API\Page;
+use Statamic\API\Entry;
+use Statamic\Extend\Collection;
 use Statamic\Extend\Tags;
 
 class PrestigeWorldWideTags extends Tags
