@@ -17,31 +17,6 @@ class PrestigeWorldWideTags extends Tags
     public function index()
     {
         //
-        $html = '<div class="pw_info">';
-        $html .= '<div class="pw_info__row">';
-        $html .= '<span class="pw_info__header">Start date:</span> <span class="pw_info__data">' . $this->startDate() . '</span>';
-        $html .= '</div>';
-        $html .= '<div class="pw_info__row">';
-        $html .= '<span class="pw_info__header">End date:</span> <span class="pw_info__data">' . $this->endDate() . '</span>';
-        $html .= '</div>';
-        $html .= '<div class="pw_info__row">';
-        $html .= '<span class="pw_info__header">Cost:</span> <span class="pw_info__data">' . $this->costs() . '</span>';
-        $html .= '</div>';
-        $html .= '<div class="pw_info__row">';
-        $html .= '<span class="pw_info__header">Location:</span> <span class="pw_info__data">' . $this->location(). '</span>';
-        $html .= '</div>';
-        $html .= '<div class="pw_info__row">';
-        $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
-        $html .= $this->organizer();
-        $html .= '</a>';
-        $html .= '</div>';
-        $html .= '<div class="pw_info__row" class="pw_info__btn">';
-        $html .= '<a href="' . $this->signup() .  '">';
-        $html .= 'Sign up';
-        $html .= '</a>';
-        $html .= '</div>';
-        $html .= '</div>';
-        return $html;
     }
 
     /**
@@ -168,5 +143,40 @@ class PrestigeWorldWideTags extends Tags
     //         'errors' => []
     //     ];
     // }
+
+    /**
+     * The {{ prestige_world_wide }} tag
+     *
+     * @return string|array
+     */
+    public function info()
+    {
+        //
+        $html = '<div class="pw_info">';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<span class="pw_info__header">Start date:</span> <span class="pw_info__data">' . $this->startDate() . '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<span class="pw_info__header">End date:</span> <span class="pw_info__data">' . $this->endDate() . '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<span class="pw_info__header">Cost:</span> <span class="pw_info__data">' . $this->costs() . '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<span class="pw_info__header">Location:</span> <span class="pw_info__data">' . $this->location(). '</span>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row">';
+        $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
+        $html .= $this->organizer();
+        $html .= '</a>';
+        $html .= '</div>';
+        $html .= '<div class="pw_info__row" class="pw_info__btn">';
+        $html .= '<a href="' . $this->signup() .  '">';
+        $html .= 'Sign up';
+        $html .= '</a>';
+        $html .= '</div>';
+        $html .= '</div>';
+        return $html;
+    }
 
 }
