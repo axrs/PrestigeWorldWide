@@ -178,33 +178,6 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:has_signup }} tag
-     *
-     * @return string
-     */
-    public function hasSignup()
-    {
-        if (isset($this->context['pw_signup'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * The {{ prestige_world_wide:signup }} tag
-     *
-     * @return string
-     */
-    public function signup()
-    {
-        if (isset($this->context['pw_signup'])) {
-            $pw_signup_url = Page::find($this->context['pw_signup']);
-            return $pw_signup_url->uri();
-        }
-    }
-
-    /**
      * The {{ prestige_world_wide:form }} tag
      *
      * @return string
@@ -269,13 +242,7 @@ class PrestigeWorldWideTags extends Tags
             $html .= '</a>';
             $html .= '</div>';
         }
-        if ($this->hasSignup() == true) {
-            $html .= '<div class="pw_info__row" class="pw_info__btn">';
-            $html .= '<a href="' . $this->signup() .  '">';
-            $html .= 'Sign up';
-            $html .= '</a>';
-            $html .= '</div>';
-        }
+
         $html .= '</div>';
         return $html;
     }

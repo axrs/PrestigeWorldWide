@@ -44,10 +44,6 @@ fields:
     instructions: "Optional"
   Submissions:
     type: section
-  pw_signup:
-    type: pages
-    display: "Is there a signup page?"
-    max_items: 1
   pw_form:
     type: suggest
     mode: prestigeworldwide
