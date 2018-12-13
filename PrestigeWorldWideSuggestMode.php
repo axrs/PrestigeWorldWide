@@ -13,7 +13,7 @@ class PrestigeWorldWideSuggestMode extends AbstractMode
 
         foreach ($forms as $form) {
             $formvalues[] = (object) [
-                'value' => $form['title'],
+                'value' => $form['name'],
                 'text' => $form['title']
             ];
         }
