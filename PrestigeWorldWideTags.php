@@ -137,16 +137,16 @@ class PrestigeWorldWideTags extends Tags
     {
         $html = '<div class="pw_info">';
         $html .= '<div class="pw_info__row">';
-        $html .= '<strong>Start date:</strong> <span>' . $this->startDate() . '</span>';
+        $html .= '<span class="pw_info__header">Start date:</span> <span class="pw_info__data">' . $this->startDate() . '</span>';
         $html .= '</div>';
         $html .= '<div class="pw_info__row">';
-        $html .= '<strong>End date:</strong> <span>' . $this->endDate() . '</span>';
+        $html .= '<span class="pw_info__header">End date:</span> <span class="pw_info__data">' . $this->endDate() . '</span>';
         $html .= '</div>';
         $html .= '<div class="pw_info__row">';
-        $html .= '<strong>Cost:</strong> <span>' . $this->costs() . '</span>';
+        $html .= '<span class="pw_info__header">Cost:</span> <span class="pw_info__data">' . $this->costs() . '</span>';
         $html .= '</div>';
         $html .= '<div class="pw_info__row">';
-        $html .= '<strong>Location:</strong> <span>' . $this->location(). '</span>';
+        $html .= '<span class="pw_info__header">Location:</span> <span class="pw_info__data">' . $this->location(). '</span>';
         $html .= '</div>';
         $html .= '<div class="pw_info__row">';
         $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
