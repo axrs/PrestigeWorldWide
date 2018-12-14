@@ -1,4 +1,0 @@
-routes:
-  /:
-    as: addons.events
-    uses: index
