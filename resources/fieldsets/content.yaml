@@ -23,14 +23,8 @@ fields:
   pw_costs:
     width: 50
     type: text
-    display: "Costs"
+    display: "Cost"
     instructions: "Add anything you want. You can say it's free, 1 dollar, 1 euro or nothing at all"
-  pw_image:
-    type: assets
-    display: "Image"
-    container: "Event image"
-    instructions: "This image will be used in the event preview"
-    max_files: 1
   pw_location:
     type: text
     display: "Address or location"
