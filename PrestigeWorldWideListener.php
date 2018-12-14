@@ -6,14 +6,20 @@ use Statamic\API\Str;
 use Statamic\API\File;
 use Statamic\API\YAML;
 use Statamic\API\Nav;
+use Statamic\API\Entry;
+use Statamic\Data\Data;
 use Statamic\API\Collection;
 use Statamic\Extend\Listener;
 use Statamic\Events\Data\FindingFieldset;
 use Illuminate\Support\Facades\Cache;
 use Statamic\Addons\SeoPro\Sitemap\Sitemap;
+use Statamic\Contracts\Forms\Submission;
+use Illuminate\Http\Response;
 
 class PrestigeWorldWideListener extends Listener
 {
+
+    protected $entry_id;
 
     /**
      * The events to be listened for, and the methods to call.
@@ -21,7 +27,9 @@ class PrestigeWorldWideListener extends Listener
      * @var array
      */
     public $events = [
-        FindingFieldset::class => 'handle'
+        FindingFieldset::class => 'handle',
+        'Form.submission.creating' => 'handleSubmission',
+        'response.created' => 'handleResponse'
     ];
 
     public function handle(FindingFieldset $eventCollection)
@@ -56,19 +64,43 @@ class PrestigeWorldWideListener extends Listener
         }
     }
 
-    protected function getPlaceholder($key, $field, $data)
+    // protected function getPlaceholder($key, $field, $data)
+    // {
+    //     if (! $data) {
+    //         return;
+    //     }
+    //
+    //     $vars = (new TagData)
+    //         ->with(Settings::load()->get('defaults'))
+    //         ->with($data->getWithCascade('event', []))
+    //         ->withCurrent($data)
+    //         ->get();
+    //
+    //     return array_get($vars, $key);
+    // }
+
+    public function handleSubmission(Submission $submission)
     {
-        if (! $data) {
-            return;
-        }
 
-        $vars = (new TagData)
-            ->with(Settings::load()->get('defaults'))
-            ->with($data->getWithCascade('event', []))
-            ->withCurrent($data)
-            ->get();
+        // dd( $this->blink()->all() );
+        // dd($submission);
+        // Get the saved events collection from the settings
+        // $this->eventsCollection = $this->getConfig('my_collections_field');
 
-        return array_get($vars, $key);
+        // dd($this->handleResponse());
+        // dd($entry_id);
+        // $submission->set('pw_id', $this->$entryId);
+
+        return [
+            'submission' => $submission
+        ];
+    }
+
+    public function handleResponse(Response $response)
+    {
+        $view = $response->getOriginalContent();
+        $id = $view->getData()['id'];
+        // dd($id);
     }
 
 }

@@ -180,28 +180,56 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:form }} tag
+     * The {{ prestige_world_wide:participants }} tag
      *
      * @return string
      */
-    public function form()
+    public function participants()
     {
-        if (isset($this->context['pw_form'])) {
-            $pw_form = Form::get($this->context['pw_form']);
-            // dd($form);
-            return $this->context['pw_form'];
+        if (isset($this->context['pw_max_participants'])) {
+
+            return $this->context['pw_max_participants'];
         }
     }
 
-    // public $events = ['Form.submission.creating' => 'handle'];
-    //
-    // public function handle(Submission $submission)
-    // {
-    //     return [
-    //         'submission' => $submission,
-    //         'errors' => []
-    //     ];
-    // }
+    /**
+     * The {{ prestige_world_wide:signupform }} tag
+     *
+     * @return string
+     */
+    public function signupform()
+    {
+        if (isset($this->context['pw_form'])) {
+            $pw_form = Form::get($this->context['pw_form']);
+            // dd($pw_form);
+        }
+    }
+
+    /**
+     * The {{ prestige_world_wide:is_full }} tag
+     *
+     * @return string
+     */
+    public function isFull()
+    {
+        if (isset($this->context['pw_form'])) {
+            // return 'Not full';
+
+            $pw_form = Form::all();
+            // dd($pw_form);
+
+            foreach ($pw_form as $pw_form) {
+                if ($pw_form['name'] == $this->context['pw_form']) {
+                    if ($pw_form['count'] > $this->participants()) {
+                        // return $pw_form['count'];
+                        return 'Full';
+                    } else {
+                        return 'Not full';
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * The {{ prestige_world_wide:info }} tag
