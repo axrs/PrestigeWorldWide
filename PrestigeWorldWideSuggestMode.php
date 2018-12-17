@@ -7,7 +7,6 @@ class PrestigeWorldWideSuggestMode extends AbstractMode
 {
     public function suggestions()
     {
-
         $forms = Form::all();
         $formvalues = [];
 

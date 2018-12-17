@@ -82,15 +82,9 @@ class PrestigeWorldWideListener extends Listener
     public function handleSubmission(Submission $submission)
     {
 
-        // dd( $this->blink()->all() );
+        $entry_id = session()->pull('pw_id', 'default');
+        $submission->set('pw_id', $entry_id);
         // dd($submission);
-        // Get the saved events collection from the settings
-        // $this->eventsCollection = $this->getConfig('my_collections_field');
-
-        // dd($this->handleResponse());
-        // dd($entry_id);
-        // $submission->set('pw_id', $this->$entryId);
-
         return [
             'submission' => $submission
         ];
@@ -98,9 +92,10 @@ class PrestigeWorldWideListener extends Listener
 
     public function handleResponse(Response $response)
     {
-        $view = $response->getOriginalContent();
-        $id = $view->getData()['id'];
-        // dd($id);
+        $view       = $response->getOriginalContent();
+        $entry_id   = $view->getData()['id'];
+
+        session(['pw_id' => $entry_id]);
     }
 
 }

@@ -3,11 +3,13 @@
 namespace Statamic\Addons\PrestigeWorldWide;
 
 use Statamic\Contracts\Forms\Submission;
+// use Statamic\Contracts\Data\Data;
 use Statamic\API\Form;
 use Statamic\API\Page;
 use Statamic\API\Entry;
 use Statamic\Extend\Collection;
 use Statamic\Extend\Tags;
+// use bundles\Session\SessionTags;
 
 class PrestigeWorldWideTags extends Tags
 {
@@ -187,21 +189,7 @@ class PrestigeWorldWideTags extends Tags
     public function participants()
     {
         if (isset($this->context['pw_max_participants'])) {
-
             return $this->context['pw_max_participants'];
-        }
-    }
-
-    /**
-     * The {{ prestige_world_wide:signupform }} tag
-     *
-     * @return string
-     */
-    public function signupform()
-    {
-        if (isset($this->context['pw_form'])) {
-            $pw_form = Form::get($this->context['pw_form']);
-            // dd($pw_form);
         }
     }
 
@@ -216,10 +204,11 @@ class PrestigeWorldWideTags extends Tags
             // return 'Not full';
 
             $pw_form = Form::all();
-            // dd($pw_form);
 
             foreach ($pw_form as $pw_form) {
+
                 if ($pw_form['name'] == $this->context['pw_form']) {
+
                     if ($pw_form['count'] > $this->participants()) {
                         // return $pw_form['count'];
                         return 'Full';
