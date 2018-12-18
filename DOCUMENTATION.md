@@ -36,6 +36,7 @@ See what we've done there?
 
 ## Detail page tags <a id="detail"></a>
 The idea of PW is to give you the freedom to build your eventpage the way you want to. You can use the following tags:
+
 * [Start date](#startdate)
 * [End date](#enddate)
 * [Cost](#cost)
