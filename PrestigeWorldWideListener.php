@@ -19,8 +19,6 @@ use Illuminate\Http\Response;
 class PrestigeWorldWideListener extends Listener
 {
 
-    protected $entry_id;
-
     /**
      * The events to be listened for, and the methods to call.
      *
@@ -84,7 +82,6 @@ class PrestigeWorldWideListener extends Listener
 
         $entry_id = session()->pull('pw_id', 'default');
         $submission->set('pw_id', $entry_id);
-        // dd($submission);
         return [
             'submission' => $submission
         ];
