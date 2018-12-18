@@ -199,28 +199,39 @@ Start date is a required field. Otherwise there would never be an event.
 Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which will return the following html:
 
     <div class="pw_info">   
-        <div class="pw_info__row">   
-            <span class="pw_info__header">Start date:</span>   
-            <span class="pw_info__data">2018-12-04 23:59</span>   
+        <div class="pw_info__row pw_info__row--startdate">   
+            <span class="pw_info__header pw_info__header--startdate">Start date:</span>   
+            <span class="pw_info__data pw_info__data--startdate">2018-12-04 12:00</span>   
         </div>   
-        <div class="pw_info__row">   
-            <span class="pw_info__header">End date:</span>   
-            <span class="pw_info__data">2018-12-5 12:12</span>   
+        <div class="pw_info__row pw_info__row--enddate">   
+            <span class="pw_info__header pw_info__header--enddate">End date:</span>   
+            <span class="pw_info__data pw_info__data--enddate">2018-12-05 12:00</span>   
         </div>   
-        <div class="pw_info__row">   
-            <span class="pw_info__header">Cost:</span>   
-            <span class="pw_info__data">200 Dollars</span>   
+        <div class="pw_info__row pw_info__row--cost">   
+            <span class="pw_info__header pw_info__header--cost">Cost:</span>   
+            <span class="pw_info__data pw_info__data--cost">200 Dollars</span>   
         </div>   
-        <div class="pw_info__row">   
-            <span class="pw_info__header">Location:</span>   
-            <span class="pw_info__data">Catalina Wine Mixer</span>   
+        <div class="pw_info__row pw_info__row--location">   
+            <span class="pw_info__header pw_info__header--location">Location:</span>   
+            <span class="pw_info__data pw_info__data--location">Catalina</span>   
         </div>   
-        <div class="pw_info__row">   
-            <a href="https://kielzog.nl/" class="pw_info__url">Prestige Worldwide</a>   
+        <div class="pw_info__row pw_info__row--participants">   
+            <span class="pw_info__header pw_info__header--participants">Signups:</span>   
+            <span class="pw_info__data pw_info__data--participants">50</span>   
+        </div>   
+        <div class="pw_info__row pw_info__row--maxparticipants">   
+            <span class="pw_info__header pw_info__header--maxparticipants">Max # of participants:</span>   
+            <span class="pw_info__data pw_info__data--maxparticipants">100</span>   
+        </div>   
+        <div class="pw_info__row pw_info__row--url">   
+            <a href="https://www.urbandictionary.com/define.php?term=Prestige%20Worldwide" class="pw_info__url">Prestige Worldwide</a>   
+        </div>   
+        <div class="pw_info__row pw_info__row--full">   
+            <span class="pw_info__header pw_info__header--full">Sorry, it's full!</span>   
         </div>   
     </div>
 
-All event info is here, but there's no way of altering the output. The html is simple, and you should be able to control the styling using the classes.
+All event info is here, but there's no way of altering the output. The html is simple, and you should be able to control the styling using the classes. This tag doesn't output a signup form. If you wrap the form in `{{ if !{prestige_world_wide:is_full} }}` the form won't show when the event is full.
 
 ## Signup form <a id="form"></a>
 If you selected a form you will have to add the code for that form on the event page. More info about adding a form is [in the Statamic docs here](https://docs.statamic.com/forms#main). You don't have to add any extra fields for PW, it does that by itself. __The only requirement is that the form must exist on the event page__. You can use 1 form for all events, or use 1 form for each event. It's up to you.

@@ -4,7 +4,6 @@ namespace Statamic\Addons\PrestigeWorldWide;
 
 use Statamic\Contracts\Forms\Submission;
 use Statamic\API\Form;
-use Statamic\API\Page;
 use Statamic\API\Entry;
 use Statamic\Extend\Collection;
 use Statamic\Extend\Tags;
@@ -185,33 +184,46 @@ class PrestigeWorldWideTags extends Tags
         //
         $html = '<div class="pw_info">';
 
-        $html .= '<div class="pw_info__row">';
-        $html .= '<span class="pw_info__header">Start date:</span> <span class="pw_info__data">' . $this->startDate() . '</span>';
+        $html .= '<div class="pw_info__row pw_info__row--startdate">';
+        $html .= '<span class="pw_info__header pw_info__header--startdate">Start date:</span> <span class="pw_info__data pw_info__data--startdate">' . $this->startDate() . '</span>';
         $html .= '</div>';
         if ($this->hasEndDate() == true) {
-            $html .= '<div class="pw_info__row">';
-            $html .= '<span class="pw_info__header">End date:</span> <span class="pw_info__data">' . $this->endDate() . '</span>';
+            $html .= '<div class="pw_info__row pw_info__row--enddate">';
+            $html .= '<span class="pw_info__header pw_info__header--enddate">End date:</span> <span class="pw_info__data pw_info__data--enddate">' . $this->endDate() . '</span>';
             $html .= '</div>';
         }
         if ($this->costs()) {
-            $html .= '<div class="pw_info__row">';
-            $html .= '<span class="pw_info__header">Cost:</span> <span class="pw_info__data">' . $this->costs() . '</span>';
+            $html .= '<div class="pw_info__row pw_info__row--cost">';
+            $html .= '<span class="pw_info__header pw_info__header--cost">Cost:</span> <span class="pw_info__data pw_info__data--cost">' . $this->costs() . '</span>';
             $html .= '</div>';
         }
         if ($this->location()) {
-            $html .= '<div class="pw_info__row">';
-            $html .= '<span class="pw_info__header">Location:</span> <span class="pw_info__data">' . $this->location(). '</span>';
+            $html .= '<div class="pw_info__row pw_info__row--location">';
+            $html .= '<span class="pw_info__header pw_info__header--location">Location:</span> <span class="pw_info__data pw_info__data--startdate--location">' . $this->location(). '</span>';
+            $html .= '</div>';
+        }
+        if ($this->participants()) {
+            $html .= '<div class="pw_info__row pw_info__row--participants">';
+            $html .= '<span class="pw_info__header pw_info__header--participants">Signups:</span> <span class="pw_info__data pw_info__data--startdate--participants">' . $this->participants(). '</span>';
+            $html .= '</div>';
+        }
+        if ($this->maxParticipants()) {
+            $html .= '<div class="pw_info__row pw_info__row--maxparticipants">';
+            $html .= '<span class="pw_info__header pw_info__header--maxparticipants">Max # of participants:</span> <span class="pw_info__data pw_info__data--startdate--maxparticipants">' . $this->maxParticipants(). '</span>';
             $html .= '</div>';
         }
         if ($this->url()) {
-            $html .= '<div class="pw_info__row">';
+            $html .= '<div class="pw_info__row pw_info__row--url">';
             $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
             if ($this->organizer() == true) {
                 $html .= $this->organizer();
-            } else {
-                $html .= 'External url';
             }
             $html .= '</a>';
+            $html .= '</div>';
+        }
+        if ($this->isFull()) {
+            $html .= '<div class="pw_info__row pw_info__row--full">';
+            $html .= "<span class='pw_info__header pw_info__header--full'>Sorry, it's full!</span";
             $html .= '</div>';
         }
 
