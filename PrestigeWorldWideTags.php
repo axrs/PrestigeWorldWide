@@ -3,13 +3,17 @@
 namespace Statamic\Addons\PrestigeWorldWide;
 
 use Statamic\Contracts\Forms\Submission;
-// use Statamic\Contracts\Data\Data;
 use Statamic\API\Form;
 use Statamic\API\Page;
 use Statamic\API\Entry;
 use Statamic\Extend\Collection;
 use Statamic\Extend\Tags;
-// use bundles\Session\SessionTags;
+use Statamic\API\Folder;
+use Illuminate\Support\Facades\Storage;
+use Statamic\Data\DataCollection;
+use Statamic\API\File;
+use Statamic\API\Yaml;
+use Illuminate\Http\Request;
 
 class PrestigeWorldWideTags extends Tags
 {
@@ -201,23 +205,48 @@ class PrestigeWorldWideTags extends Tags
     public function isFull()
     {
         if (isset($this->context['pw_form'])) {
-            // return 'Not full';
 
+            $pw_formname = $this->context['pw_form'];
             $pw_form = Form::all();
+            $pw_submissions = $this->submissions($pw_formname);
 
             foreach ($pw_form as $pw_form) {
 
-                if ($pw_form['name'] == $this->context['pw_form']) {
+                if ($pw_form['name'] == $pw_formname) {
 
-                    if ($pw_form['count'] > $this->participants()) {
-                        // return $pw_form['count'];
-                        return 'Full';
+                    if ($pw_submissions > $this->participants()) {
+                        return 'Full: ' . $pw_submissions;
                     } else {
-                        return 'Not full';
+                        return 'Not full: ' . $pw_submissions;
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Return the number of submissions for a form connected to an entry
+     *
+     * @return mixed
+     */
+    private function submissions($formname)
+    {
+        $entry_id = session()->pull('pw_id', 'default');
+        $substorage = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
+        $subs = [];
+
+        foreach ($substorage as $sub) {
+            $file = File::get($sub);
+            $yaml = Yaml::parse($file);
+
+            if ($yaml['pw_id'] == $entry_id) {
+                $subs[] = $yaml;
+            }
+        }
+
+        $collection = collect($subs);
+        return count($collection);
+        // dd(count($collection));
     }
 
     /**
