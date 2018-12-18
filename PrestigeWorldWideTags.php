@@ -206,19 +206,20 @@ class PrestigeWorldWideTags extends Tags
     {
         if (isset($this->context['pw_form'])) {
 
+            $entry_id       = $this->context['id'];
             $pw_formname    = $this->context['pw_form'];
             $pw_form        = Form::all();
-            $pw_submissions = $this->submissions($pw_formname);
+            $pw_submissions = $this->submissions($pw_formname, $entry_id);
             $pw_max         = $this->maxParticipants();
 
             foreach ($pw_form as $pw_form) {
 
                 if ($pw_form['name'] == $pw_formname) {
 
-                    if ($pw_submissions > $pw_max) {
+                    if ($pw_submissions == $pw_max) {
                         return 'Full: ' . $pw_submissions;
                     } else {
-                        return 'Not full: ' . $pw_submissions;
+                        return 'Not full: ' . $pw_formname . ', '. $pw_submissions . ', ' . $pw_max;
                     }
                 }
             }
@@ -276,23 +277,23 @@ class PrestigeWorldWideTags extends Tags
      *
      * @return mixed
      */
-    private function submissions($formname)
+    private function submissions($formname, $entry_id)
     {
-        $entry_id       = session()->pull('pw_id', 'default');
         $substorage     = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
-        $subs           = [];
+        $c              = 0;
+        // var_dump($entry_id);
 
         foreach ($substorage as $sub) {
             $file = File::get($sub);
             $yaml = Yaml::parse($file);
 
             if ($yaml['pw_id'] == $entry_id) {
-                $subs[] = $yaml;
+                $c++;
             }
         }
 
-        $collection = collect($subs);
-        return count($collection);
+        // $collection = collect($subs);
+        return $c;
     }
 
 }

@@ -91,7 +91,7 @@ class PrestigeWorldWideListener extends Listener
     {
         $entry_id = session()->pull('pw_id', 'default');
         $submission->set('pw_id', $entry_id);
-        
+
         return [
             'submission' => $submission
         ];
@@ -107,7 +107,9 @@ class PrestigeWorldWideListener extends Listener
         $view       = $response->getOriginalContent();
         $entry_id   = $view->getData()['id'];
 
-        session(['pw_id' => $entry_id]);
+        if ($view->getData()['id'] !== NULL) {
+            session(['pw_id' => $entry_id]);
+        }
     }
 
 }
