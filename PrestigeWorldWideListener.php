@@ -89,9 +89,9 @@ class PrestigeWorldWideListener extends Listener
      */
     public function handleSubmission(Submission $submission)
     {
-
         $entry_id = session()->pull('pw_id', 'default');
         $submission->set('pw_id', $entry_id);
+        
         return [
             'submission' => $submission
         ];

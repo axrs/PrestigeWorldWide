@@ -186,11 +186,11 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:participants }} tag
+     * The {{ prestige_world_wide:max_participants }} tag
      *
      * @return string
      */
-    public function participants()
+    public function maxParticipants()
     {
         if (isset($this->context['pw_max_participants'])) {
             return $this->context['pw_max_participants'];
@@ -206,15 +206,16 @@ class PrestigeWorldWideTags extends Tags
     {
         if (isset($this->context['pw_form'])) {
 
-            $pw_formname = $this->context['pw_form'];
-            $pw_form = Form::all();
+            $pw_formname    = $this->context['pw_form'];
+            $pw_form        = Form::all();
             $pw_submissions = $this->submissions($pw_formname);
+            $pw_max         = $this->maxParticipants();
 
             foreach ($pw_form as $pw_form) {
 
                 if ($pw_form['name'] == $pw_formname) {
 
-                    if ($pw_submissions > $this->participants()) {
+                    if ($pw_submissions > $pw_max) {
                         return 'Full: ' . $pw_submissions;
                     } else {
                         return 'Not full: ' . $pw_submissions;
@@ -222,31 +223,6 @@ class PrestigeWorldWideTags extends Tags
                 }
             }
         }
-    }
-
-    /**
-     * Return the number of submissions for a form connected to an entry
-     *
-     * @return mixed
-     */
-    private function submissions($formname)
-    {
-        $entry_id = session()->pull('pw_id', 'default');
-        $substorage = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
-        $subs = [];
-
-        foreach ($substorage as $sub) {
-            $file = File::get($sub);
-            $yaml = Yaml::parse($file);
-
-            if ($yaml['pw_id'] == $entry_id) {
-                $subs[] = $yaml;
-            }
-        }
-
-        $collection = collect($subs);
-        return count($collection);
-        // dd(count($collection));
     }
 
     /**
@@ -293,6 +269,30 @@ class PrestigeWorldWideTags extends Tags
 
         $html .= '</div>';
         return $html;
+    }
+
+    /**
+     * Return the number of submissions for a form connected to an entry
+     *
+     * @return mixed
+     */
+    private function submissions($formname)
+    {
+        $entry_id       = session()->pull('pw_id', 'default');
+        $substorage     = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
+        $subs           = [];
+
+        foreach ($substorage as $sub) {
+            $file = File::get($sub);
+            $yaml = Yaml::parse($file);
+
+            if ($yaml['pw_id'] == $entry_id) {
+                $subs[] = $yaml;
+            }
+        }
+
+        $collection = collect($subs);
+        return count($collection);
     }
 
 }
