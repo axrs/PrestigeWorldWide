@@ -7,6 +7,7 @@ fields:
     display: "Start date"
     width: 50
     require_time: true
+    instructions: "The start date is required"
   pw_has_end_date:
     type: toggle
     display: "This event has an end date and/or time"
