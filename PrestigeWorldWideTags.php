@@ -45,12 +45,10 @@ class PrestigeWorldWideTags extends Tags
      */
     public function hasEndDate()
     {
-        if (isset($this->context['pw_has_end_date'])) {
-            if ($this->context['pw_has_end_date'] == true) {
-                return true;
-            } else {
-                return false;
-            }
+        if ($this->context['pw_has_end_date'] == true) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -144,20 +142,33 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
+     * The {{ prestige_world_wide:has_form }} tag
+     *
+     * @return string
+     */
+    public function hasForm()
+    {
+        if ($this->context['pw_has_form'] == true && isset($this->context['pw_form'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * The {{ prestige_world_wide:is_full }} tag
      *
      * @return string
      */
     public function isFull()
     {
-        if (isset($this->context['pw_form'])) {
+        if ($this->hasForm()) {
 
             $entry_id       = $this->context['id'];
             $pw_formname    = $this->context['pw_form'];
             $pw_form        = Form::all();
             $pw_submissions = $this->submissions($pw_formname, $entry_id);
             $pw_max         = $this->maxParticipants();
-            // dd($pw_max);
 
             foreach ($pw_form as $pw_form) {
 
@@ -173,8 +184,21 @@ class PrestigeWorldWideTags extends Tags
                     }
                 }
             }
+
         } else {
-            return "You haven't selected a signup form yet.";
+            return false;
+        }
+    }
+
+    /**
+     * Check if this event has a form
+     *
+     * @return string
+     */
+    private function form()
+    {
+        if (isset($this->context['pw_has_form'])) {
+            return true;
         }
     }
 
@@ -229,10 +253,12 @@ class PrestigeWorldWideTags extends Tags
             $html .= '</a>';
             $html .= '</div>';
         }
-        if ($this->isFull()) {
-            $html .= '<div class="pw_info__row pw_info__row--full">';
-            $html .= "<span class='pw_info__header pw_info__header--full'>Sorry, it's full!</span";
-            $html .= '</div>';
+        if (!$this->form()) {
+            if ($this->isFull()) {
+                $html .= '<div class="pw_info__row pw_info__row--full">';
+                $html .= "<span class='pw_info__header pw_info__header--full'>Sorry, it's full!</span";
+                $html .= '</div>';
+            }
         }
 
         $html .= '</div>';
