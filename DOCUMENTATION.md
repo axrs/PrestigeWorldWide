@@ -1,19 +1,17 @@
+# About Prestige Worldwide
+The idea of Prestige Worldwide isn't to be a full fledged event system within Statamic, but to add functionality to Statamic so you can use a collection for events.
+
 ## Setup
-Prestige Worldwide requires a Statamic collection to function. So create a collection before or after installing this addon. Then go to the addons page in the control panel, click on Prestige Worldwide and select the collection you want to use for your events. Each entry in this collection will be an event.
+Prestige Worldwide requires __1 thing__: a Statamic collection. So create a collection before or after installing this addon. Then go to the addons page in the control panel, click on Prestige Worldwide and select the collection you want to use for your events. Each entry in this collection will be an event.
 
-After selecting a collection you'll see an extra tab called 'Event info' on the entry page of this collection. This tab allows you to add relevant info about this event. There's info about dates, costs, location and an organizer. You can also select a form to use for signups. And if you add a maximum number of participants PW will check if the max number of participants is reached.
+After selecting a collection you'll see an extra tab called 'Event info' on the entry page of this collection. This tab allows you to add relevant info about this event. There's info about dates, costs, location and an organizer. You can also select a form to use for signups. And if you add a maximum number of participants PW will check if the max number of participants is reached. PW doesn't add things like titles or images, those are up to you.
 
-* [Using a signup form](#form)
 * [Showing a list of events](#list)
-* [Info for a detail page](#detail)
-
-## Signup form <a id="form"></a>
-If you selected a form you will have to add the code for that form somewhere on the event page. More info about that is [in the Statamic docs here](https://docs.statamic.com/forms#main).
+* [Showing info on a detail page](#detail)
+* [Using a signup form](#form)
 
 ## Showing a list of events <a id="list"></a>
-Use these for a list of events. PW adds custom filters to a Statamic collection. [More info about collections is here](https://docs.statamic.com/tags/collection).
-* [Get all future events](#future)
-* [End all past events](#past)
+Use these for a list of events. PW adds custom filters to a Statamic collection, the rest is pure Statamic. [More info about collections is here](https://docs.statamic.com/tags/collection).
 
 ### Get all future events <a id="future"></a>
 See what we've done there?
@@ -34,7 +32,7 @@ See what we've done there?
     {{ /collection:events }}
 
 ## Detail page tags <a id="detail"></a>
-The idea of PW is to give you the freedom build your eventpage the way you want to. You can use the following tags in your front-end to integrate PW in your front-end:
+The idea of PW is to give you the freedom to build your eventpage the way you want to. You can use the following tags:
 * [Start date](#startdate)
 * [End date](#enddate)
 * [Cost](#cost)
@@ -52,7 +50,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
         <tr>
             <td>Check</td>
             <td>{{ if {prestige_world_wide:has_start_date} }}{{ /if }}</td>
-            <td>Returns true</td>
+            <td>Returns true/false</td>
         </tr>
         <tr>
             <td>Get</td>
@@ -76,7 +74,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
         <tr>
             <td>Check</td>
             <td>{{ if {prestige_world_wide:has_end_date} }}{{ /if }}</td>
-            <td>Returns true</td>
+            <td>Returns true/false</td>
         </tr>
         <tr>
             <td>Get</td>
@@ -89,7 +87,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
 **Example**   
 
     {{ if {prestige_world_wide:has_end_date} }}
-        Start: {{ prestige_world_wide:end_date }}
+        Ends: {{ prestige_world_wide:end_date }}
     {{ else }}
         There is no end date
     {{ /if }}
@@ -100,7 +98,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
         <tr>
             <td>Check</td>
             <td>{{ if {prestige_world_wide:has_costs} }}{{ /if }}</td>
-            <td>Returns true</td>
+            <td>Returns true/false</td>
         </tr>
         <tr>
             <td>Get</td>
@@ -113,18 +111,18 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
 **Example**   
 
     {{ if {prestige_world_wide:has_costs} }}
-        Start: {{ prestige_world_wide:costs }}
+        How much? {{ prestige_world_wide:costs }}
     {{ else }}
         This event is free
     {{ /if }}
 
-### Location  <a id="location"></a>
+### Location <a id="location"></a>
 <table>
     <tbody>
         <tr>
             <td>Check</td>
             <td>{{ if {prestige_world_wide:has_location} }}{{ /if }}</td>
-            <td>Returns true</td>
+            <td>Returns true/false</td>
         </tr>
         <tr>
             <td>Get</td>
@@ -137,9 +135,9 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
 **Example**   
 
     {{ if {prestige_world_wide:has_location} }}
-        Start: {{ prestige_world_wide:location }}
+        Location: {{ prestige_world_wide:location }}
     {{ else }}
-        This event everywhere!
+        Catalina
     {{ /if }}
 
 ### Organizer <a id="organizer"></a>
@@ -148,7 +146,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
         <tr>
             <td>Check</td>
             <td>{{ if {prestige_world_wide:has_organizer} }}{{ /if }}</td>
-            <td>Returns true</td>
+            <td>Returns true/false</td>
         </tr>
         <tr>
             <td>Get</td>
@@ -161,9 +159,9 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
 **Example**   
 
     {{ if {prestige_world_wide:has_organizer} }}
-        Start: {{ prestige_world_wide:organizer }}
+        Who? {{ prestige_world_wide:organizer }}
     {{ else }}
-        This event is owned by everybody!
+        Prestige Worldwide!
     {{ /if }}
 
 ### Max number of participants <a id="participants"></a>
@@ -172,7 +170,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
         <tr>
             <td>Check</td>
             <td>{{ if {prestige_world_wide:has_max_participants} }}{{ /if }}</td>
-            <td>Returns true</td>
+            <td>Returns true/false</td>
         </tr>
         <tr>
             <td>Get</td>
@@ -185,7 +183,7 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
 **Example**   
 
     {{ if {prestige_world_wide:has_max_participants} }}
-        Start: {{ prestige_world_wide:max_participants }}
+        This event is limited to: {{ prestige_world_wide:max_participants }}
     {{ else }}
         Just join us!
     {{ /if }}
@@ -194,9 +192,9 @@ The idea of PW is to give you the freedom build your eventpage the way you want 
 <table>
     <tbody>
         <tr>
-            <td>Get</td>
-            <td>{{ prestige_world_wide:is_full }}</td>
-            <td>Returns true</td>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:is_full} }}{{ /if }}</td>
+            <td>Returns true/false</td>
         </tr>
     </tbody>
 </table>
@@ -227,11 +225,14 @@ Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which 
         </div>   
         <div class="pw_info__row">   
             <span class="pw_info__header">Location:</span>   
-            <span class="pw_info__data">Kielzog Theater</span>   
+            <span class="pw_info__data">Catalina Wine Mixer</span>   
         </div>   
         <div class="pw_info__row">   
-            <a href="https://kielzog.nl/" class="pw_info__url">Het Kielzog</a>   
+            <a href="https://kielzog.nl/" class="pw_info__url">Prestige Worldwide</a>   
         </div>   
     </div>
 
 All event info is here, but there's no way of altering the output. The html is simple, and you should be able to control the styling using the classes.
+
+## Signup form <a id="form"></a>
+If you selected a form you will have to add the code for that form on the event page. More info about adding a form is [in the Statamic docs here](https://docs.statamic.com/forms#main). You don't have to add any extra fields for PW, it does that by itself. __The only requirement is that the form must exist on the event page__. You can use 1 form for all events, or use 1 form for each event. It's up to you.
