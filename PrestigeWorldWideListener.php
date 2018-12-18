@@ -46,14 +46,6 @@ class PrestigeWorldWideListener extends Listener
             $fieldset = $eventCollection->fieldset;
             $sections = $fieldset->sections();
             $fields = YAML::parse(File::get($this->getDirectory().'/resources/fieldsets/content.yaml'))['fields'];
-            // dd($fields['event']['fields']);
-
-            // $eventFields = collect($fields['event']['fields'])->map(function ($field, $key) use ($event) {
-                // $field['placeholder'] = $this->getPlaceholder($key, $field, $event->data);
-                // return $field;
-            // })->all();
-
-            // $fields['event']['fields'] = $this->translateFieldsetFields($eventFields, 'content');
 
             $sections['event'] = [
                 'display' => 'Event info',
@@ -66,21 +58,6 @@ class PrestigeWorldWideListener extends Listener
 
         }
     }
-
-    // protected function getPlaceholder($key, $field, $data)
-    // {
-    //     if (! $data) {
-    //         return;
-    //     }
-    //
-    //     $vars = (new TagData)
-    //         ->with(Settings::load()->get('defaults'))
-    //         ->with($data->getWithCascade('event', []))
-    //         ->withCurrent($data)
-    //         ->get();
-    //
-    //     return array_get($vars, $key);
-    // }
 
     /**
      * Get the entry id from the session and add to the form submission
