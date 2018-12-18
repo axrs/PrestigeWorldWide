@@ -202,10 +202,12 @@ class PrestigeWorldWideTags extends Tags
             $html .= '<span class="pw_info__header pw_info__header--location">Location:</span> <span class="pw_info__data pw_info__data--startdate--location">' . $this->location(). '</span>';
             $html .= '</div>';
         }
-        if ($this->participants()) {
-            $html .= '<div class="pw_info__row pw_info__row--participants">';
-            $html .= '<span class="pw_info__header pw_info__header--participants">Signups:</span> <span class="pw_info__data pw_info__data--startdate--participants">' . $this->participants(). '</span>';
-            $html .= '</div>';
+        if (!$this->isFull()) {
+            if ($this->participants()) {
+                $html .= '<div class="pw_info__row pw_info__row--participants">';
+                $html .= '<span class="pw_info__header pw_info__header--participants">Signups:</span> <span class="pw_info__data pw_info__data--startdate--participants">' . $this->participants(). '</span>';
+                $html .= '</div>';
+            }
         }
         if ($this->maxParticipants()) {
             $html .= '<div class="pw_info__row pw_info__row--maxparticipants">';
