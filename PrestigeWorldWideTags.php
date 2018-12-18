@@ -295,7 +295,6 @@ class PrestigeWorldWideTags extends Tags
     {
         $substorage     = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
         $c              = 0;
-        // var_dump($entry_id);
 
         foreach ($substorage as $sub) {
             $file = File::get($sub);
@@ -305,8 +304,6 @@ class PrestigeWorldWideTags extends Tags
                 $c++;
             }
         }
-
-        // $collection = collect($subs);
         return $c;
     }
 
