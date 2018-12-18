@@ -162,7 +162,7 @@ class PrestigeWorldWideTags extends Tags
 
                 if ($pw_form['name'] == $pw_formname) {
 
-                    if ($pw_submissions == $pw_max) {
+                    if ($pw_submissions >= $pw_max) {
                         return true;
                     } else {
                         return false;
