@@ -217,9 +217,9 @@ class PrestigeWorldWideTags extends Tags
                 if ($pw_form['name'] == $pw_formname) {
 
                     if ($pw_submissions == $pw_max) {
-                        return 'Full: ' . $pw_submissions;
+                        return 'Full';
                     } else {
-                        return 'Not full: ' . $pw_formname . ', '. $pw_submissions . ', ' . $pw_max;
+                        return 'Not full';
                     }
                 }
             }
