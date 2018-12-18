@@ -38,7 +38,8 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
 * [Cost](#cost)
 * [Location](#location)
 * [Organizer](#Organizer)
-* [Max number of participants](#participants)
+* [Number of signups](#participants)
+* [Max number of participants](#maxparticipants)
 * [Full or not?](#full)
 * [I'm feeling lazy](#allinfo)
 
@@ -163,6 +164,21 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
     {{ else }}
         Prestige Worldwide!
     {{ /if }}
+
+### Number of signups <a id="participants"></a>
+<table>
+    <tbody>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:participants }}</td>
+            <td>Returns a string</td>
+        </tr>
+    </tbody>
+</table>
+
+**Example**   
+
+    {{ prestige_world_wide:participants }}
 
 ### Max number of participants <a id="participants"></a>
 <table>
