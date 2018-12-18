@@ -219,9 +219,11 @@ class PrestigeWorldWideTags extends Tags
     public function participants()
     {
         if (isset($this->context['pw_form'])) {
+
             $entry_id       = $this->context['id'];
             $pw_formname    = $this->context['pw_form'];
             return $this->submissions($pw_formname, $entry_id);
+
         }
     }
 
@@ -251,6 +253,8 @@ class PrestigeWorldWideTags extends Tags
                     }
                 }
             }
+        } else {
+            return "You haven't selected a signup form yet.";
         }
     }
 
