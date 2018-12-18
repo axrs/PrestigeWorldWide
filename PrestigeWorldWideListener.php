@@ -30,6 +30,11 @@ class PrestigeWorldWideListener extends Listener
         'response.created' => 'handleResponse'
     ];
 
+    /**
+     * Add the events tab to the chosen entry
+     *
+     * @var array
+     */
     public function handle(FindingFieldset $eventCollection)
     {
         // Get the saved events collection from the settings
@@ -77,6 +82,11 @@ class PrestigeWorldWideListener extends Listener
     //     return array_get($vars, $key);
     // }
 
+    /**
+     * Get the entry id from the session and add to the form submission
+     *
+     * @var array
+     */
     public function handleSubmission(Submission $submission)
     {
 
@@ -87,6 +97,11 @@ class PrestigeWorldWideListener extends Listener
         ];
     }
 
+    /**
+     * Add the entry id to the session
+     *
+     * @var array
+     */
     public function handleResponse(Response $response)
     {
         $view       = $response->getOriginalContent();
