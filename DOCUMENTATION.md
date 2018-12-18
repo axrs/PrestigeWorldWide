@@ -59,11 +59,7 @@ Start date is a required field. Otherwise there would never be an event.
 
 **Example**   
 
-    {{ if {prestige_world_wide:has_start_date} }}
-        Start: {{ prestige_world_wide:start_date }}
-    {{ else }}
-        There is no start date
-    {{ /if }}
+`Start: {{ prestige_world_wide:start_date }}`
 
 ### End date <a id="enddate"></a>
 <table>
@@ -93,11 +89,6 @@ Start date is a required field. Otherwise there would never be an event.
 <table>
     <tbody>
         <tr>
-            <td>Check</td>
-            <td>{{ if {prestige_world_wide:has_costs} }}{{ /if }}</td>
-            <td>Returns true/false</td>
-        </tr>
-        <tr>
             <td>Get</td>
             <td>{{ prestige_world_wide:costs }}</td>
             <td>Returns a number</td>
@@ -107,7 +98,7 @@ Start date is a required field. Otherwise there would never be an event.
 
 **Example**   
 
-    {{ if {prestige_world_wide:has_costs} }}
+    {{ if {prestige_world_wide:costs} }}
         How much? {{ prestige_world_wide:costs }}
     {{ else }}
         This event is free
@@ -116,11 +107,6 @@ Start date is a required field. Otherwise there would never be an event.
 ### Location <a id="location"></a>
 <table>
     <tbody>
-        <tr>
-            <td>Check</td>
-            <td>{{ if {prestige_world_wide:has_location} }}{{ /if }}</td>
-            <td>Returns true/false</td>
-        </tr>
         <tr>
             <td>Get</td>
             <td>{{ prestige_world_wide:location }}</td>
@@ -131,7 +117,7 @@ Start date is a required field. Otherwise there would never be an event.
 
 **Example**   
 
-    {{ if {prestige_world_wide:has_location} }}
+    {{ if {prestige_world_wide:location} }}
         Location: {{ prestige_world_wide:location }}
     {{ else }}
         Catalina
@@ -140,11 +126,6 @@ Start date is a required field. Otherwise there would never be an event.
 ### Organizer <a id="organizer"></a>
 <table>
     <tbody>
-        <tr>
-            <td>Check</td>
-            <td>{{ if {prestige_world_wide:has_organizer} }}{{ /if }}</td>
-            <td>Returns true/false</td>
-        </tr>
         <tr>
             <td>Get</td>
             <td>{{ prestige_world_wide:organizer }}</td>
@@ -155,7 +136,7 @@ Start date is a required field. Otherwise there would never be an event.
 
 **Example**   
 
-    {{ if {prestige_world_wide:has_organizer} }}
+    {{ if {prestige_world_wide:organizer} }}
         Who? {{ prestige_world_wide:organizer }}
     {{ else }}
         Prestige Worldwide!
@@ -180,11 +161,6 @@ Start date is a required field. Otherwise there would never be an event.
 <table>
     <tbody>
         <tr>
-            <td>Check</td>
-            <td>{{ if {prestige_world_wide:has_max_participants} }}{{ /if }}</td>
-            <td>Returns true/false</td>
-        </tr>
-        <tr>
             <td>Get</td>
             <td>{{ prestige_world_wide:max_participants }}</td>
             <td>Returns a string</td>
@@ -194,7 +170,7 @@ Start date is a required field. Otherwise there would never be an event.
 
 **Example**   
 
-    {{ if {prestige_world_wide:has_max_participants} }}
+    {{ if {prestige_world_wide:max_participants} }}
         This event is limited to: {{ prestige_world_wide:max_participants }}
     {{ else }}
         Just join us!
@@ -225,15 +201,15 @@ Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which 
     <div class="pw_info">   
         <div class="pw_info__row">   
             <span class="pw_info__header">Start date:</span>   
-            <span class="pw_info__data">2019-12-04 23:59</span>   
+            <span class="pw_info__data">2018-12-04 23:59</span>   
         </div>   
         <div class="pw_info__row">   
             <span class="pw_info__header">End date:</span>   
-            <span class="pw_info__data">2018-12-14 12:12</span>   
+            <span class="pw_info__data">2018-12-5 12:12</span>   
         </div>   
         <div class="pw_info__row">   
             <span class="pw_info__header">Cost:</span>   
-            <span class="pw_info__data">200</span>   
+            <span class="pw_info__data">200 Dollars</span>   
         </div>   
         <div class="pw_info__row">   
             <span class="pw_info__header">Location:</span>   

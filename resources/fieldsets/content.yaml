@@ -2,12 +2,13 @@ fields:
   dates:
     display: "Date & time info"
     type: section
-  pw_start_date | required:
+  pw_start_date:
     type: date
     display: "Start date"
     width: 50
     require_time: true
     instructions: "The start date is required"
+    validate: required
   pw_has_end_date:
     type: toggle
     display: "This event has an end date and/or time"
@@ -51,6 +52,7 @@ fields:
     show_when:
       pw_has_form: true
   pw_max_participants:
+    validate: integer
     type: text
     display: "Maximum number of participants"
     instructions: "Keep empty if there is no limit."

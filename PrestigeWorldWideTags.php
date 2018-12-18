@@ -68,20 +68,6 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:has_costs }} tag
-     *
-     * @return string
-     */
-    public function hasCosts()
-    {
-        if (isset($this->context['pw_costs'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * The {{ prestige_world_wide:costs }} tag
      *
      * @return string
@@ -93,19 +79,6 @@ class PrestigeWorldWideTags extends Tags
         }
     }
 
-    /**
-     * The {{ prestige_world_wide:has_location }} tag
-     *
-     * @return string
-     */
-    public function hasLocation()
-    {
-        if (isset($this->context['pw_location'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * The {{ prestige_world_wide:location }} tag
@@ -116,20 +89,6 @@ class PrestigeWorldWideTags extends Tags
     {
         if (isset($this->context['pw_location'])) {
             return $this->context['pw_location'];
-        }
-    }
-
-    /**
-     * The {{ prestige_world_wide:has_url }} tag
-     *
-     * @return string
-     */
-    public function hasUrl()
-    {
-        if (isset($this->context['pw_url'])) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -146,20 +105,6 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:has_organizer }} tag
-     *
-     * @return string
-     */
-    public function hasOrganizer()
-    {
-        if (isset($this->context['pw_organizer'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * The {{ prestige_world_wide:organizer }} tag
      *
      * @return string
@@ -168,20 +113,6 @@ class PrestigeWorldWideTags extends Tags
     {
         if (isset($this->context['pw_organizer'])) {
             return $this->context['pw_organizer'];
-        }
-    }
-
-    /**
-     * The {{ prestige_world_wide:has_max_participants }} tag
-     *
-     * @return string
-     */
-    public function hasMaxParticipants()
-    {
-        if (isset($this->context['pw_max_participants'])) {
-            return true;
-        } else {
-            return false;
         }
     }
 
@@ -233,9 +164,9 @@ class PrestigeWorldWideTags extends Tags
                 if ($pw_form['name'] == $pw_formname) {
 
                     if ($pw_submissions == $pw_max) {
-                        return 'Full';
+                        return true;
                     } else {
-                        return 'Not full';
+                        return false;
                     }
                 }
             }
@@ -262,20 +193,20 @@ class PrestigeWorldWideTags extends Tags
             $html .= '<span class="pw_info__header">End date:</span> <span class="pw_info__data">' . $this->endDate() . '</span>';
             $html .= '</div>';
         }
-        if ($this->hasCosts() == true) {
+        if ($this->costs()) {
             $html .= '<div class="pw_info__row">';
             $html .= '<span class="pw_info__header">Cost:</span> <span class="pw_info__data">' . $this->costs() . '</span>';
             $html .= '</div>';
         }
-        if ($this->hasLocation() == true) {
+        if ($this->location()) {
             $html .= '<div class="pw_info__row">';
             $html .= '<span class="pw_info__header">Location:</span> <span class="pw_info__data">' . $this->location(). '</span>';
             $html .= '</div>';
         }
-        if ($this->hasUrl() == true) {
+        if ($this->url()) {
             $html .= '<div class="pw_info__row">';
             $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
-            if ($this->hasOrganizer() == true) {
+            if ($this->organizer() == true) {
                 $html .= $this->organizer();
             } else {
                 $html .= 'External url';
