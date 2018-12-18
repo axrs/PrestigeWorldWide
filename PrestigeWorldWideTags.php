@@ -157,15 +157,19 @@ class PrestigeWorldWideTags extends Tags
             $pw_form        = Form::all();
             $pw_submissions = $this->submissions($pw_formname, $entry_id);
             $pw_max         = $this->maxParticipants();
+            // dd($pw_max);
 
             foreach ($pw_form as $pw_form) {
 
                 if ($pw_form['name'] == $pw_formname) {
 
-                    if ($pw_submissions >= $pw_max) {
-                        return true;
-                    } else {
-                        return false;
+                    if ($pw_max !== NULL) {
+
+                        if ($pw_submissions >= $pw_max) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }
