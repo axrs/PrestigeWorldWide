@@ -28,20 +28,6 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:has_start_date }} tag
-     *
-     * @return string
-     */
-    public function hasStartDate()
-    {
-        if (isset($this->context['pw_start_date'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * The {{ prestige_world_wide:start_date }} tag
      *
      * @return string
@@ -268,11 +254,9 @@ class PrestigeWorldWideTags extends Tags
         //
         $html = '<div class="pw_info">';
 
-        if ($this->hasStartDate() == true) {
-            $html .= '<div class="pw_info__row">';
-            $html .= '<span class="pw_info__header">Start date:</span> <span class="pw_info__data">' . $this->startDate() . '</span>';
-            $html .= '</div>';
-        }
+        $html .= '<div class="pw_info__row">';
+        $html .= '<span class="pw_info__header">Start date:</span> <span class="pw_info__data">' . $this->startDate() . '</span>';
+        $html .= '</div>';
         if ($this->hasEndDate() == true) {
             $html .= '<div class="pw_info__row">';
             $html .= '<span class="pw_info__header">End date:</span> <span class="pw_info__data">' . $this->endDate() . '</span>';

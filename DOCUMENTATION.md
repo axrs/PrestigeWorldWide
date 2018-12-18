@@ -46,13 +46,9 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
 ***
 
 ### Start date <a id="startdate"></a>
+Start date is a required field. Otherwise there would never be an event.
 <table>
     <tbody>
-        <tr>
-            <td>Check</td>
-            <td>{{ if {prestige_world_wide:has_start_date} }}{{ /if }}</td>
-            <td>Returns true/false</td>
-        </tr>
         <tr>
             <td>Get</td>
             <td>{{ prestige_world_wide:start_date }}</td>

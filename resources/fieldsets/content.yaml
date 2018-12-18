@@ -2,7 +2,7 @@ fields:
   dates:
     display: "Date & time info"
     type: section
-  pw_start_date:
+  pw_start_date | required:
     type: date
     display: "Start date"
     width: 50
