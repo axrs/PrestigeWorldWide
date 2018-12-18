@@ -1,59 +1,172 @@
-After installing you'll see a new menu item name "Menu" in your control panel. I love the name Big Kahuna, but it's not something you want to explain to customers every time ;-)
+## Setup and getting started
+Prestige Worldwide requires a Statamic collection to function. So create a collection before or after installing this addon. Then go to the addons page in the control panel, click on Prestige Worldwide and select the collection you want to use for your events. Each entry in this collection will be an event.
 
-## The cp
-You can create as many menus as you like in the cp.
+After selecting a collection you'll see an extra tab called 'Event info' on the entry page of this collection. This tab allows you to add relevant info about this event. There's info about dates, costs, location and an organizer. You can also select a form to use for signups. And if you add a maximum number of participants then PW will check if the max number of participants is reached.
 
-## Usage
-After creating a menu, add this tag to your front-end to add it to your site. The name corresponds to the name of a menu in the cp:
+## Signup form
+If you selected a form you will have to add the code for that form somewhere on the event page.
 
-    {{ bigkahuna menu="custom-name" }}
+## Tags
+You can use the following tags in your front-end to fully integrate PW in your front-end:
 
-Which will return something like this:
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">Start date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:has_start_date} }}{{ /if }}</td>
+            <td>Returns true</td>
+        </tr>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:start_date }}</td>
+            <td>Returns a date</td>
+        </tr>
+    </tbody>
+</table>
 
-    <ul class="nav custom-name">
-        <li class="nav__item is--active">
-            <a href="URL" title="Title">
-                Title
-                <ul classs="submenu">
-                    <li class="submenu__item">
-                        <a href="URL" title="Title">
-                            Title
-                        </a>
-                        Ad infinitum
-                    </li>
-                </ul>
-            </a>
-        </li>
-    </ul>
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">End date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:has_end_date} }}{{ /if }}</td>
+            <td>Returns true</td>
+        </tr>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:end_date }}</td>
+            <td>Returns a date</td>
+        </tr>
+    </tbody>
+</table>
 
-_As you can see the name is added as a class so you can target the right menu more easily in css._
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">Costs</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:has_costs} }}{{ /if }}</td>
+            <td>Returns true</td>
+        </tr>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:costs }}</td>
+            <td>Returns a number</td>
+        </tr>
+    </tbody>
+</table>
 
-## Parameters
-You can change the defaults with the following parameters:
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">Location</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:has_location} }}{{ /if }}</td>
+            <td>Returns true</td>
+        </tr>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:location }}</td>
+            <td>Returns a string</td>
+        </tr>
+    </tbody>
+</table>
 
-### Main list
-**menu** _Required_  
-This is the slug of a menu you created in the cp.
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">Organizer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:has_organizer} }}{{ /if }}</td>
+            <td>Returns true</td>
+        </tr>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:organizer }}</td>
+            <td>Returns a string</td>
+        </tr>
+    </tbody>
+</table>
 
-**id**  
-The id for the root ul. If you don't provide one there won't be an id.
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">Maximum # of participants</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Check</td>
+            <td>{{ if {prestige_world_wide:has_max_participants} }}{{ /if }}</td>
+            <td>Returns true</td>
+        </tr>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:max_participants }}</td>
+            <td>Returns a string</td>
+        </tr>
+    </tbody>
+</table>
 
-**class**  
-The class for the root ul. Defaults to 'nav'.
+<table>
+    <thead>
+        <tr>
+            <th colspan="3" align="left">If an event is full</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Get</td>
+            <td>{{ prestige_world_wide:is_full }}</td>
+            <td>Returns true</td>
+        </tr>
+    </tbody>
+</table>
 
-**active\_class**  
-The class for feedback for the current page. Defaults to 'is--active'. This class is applied as an extra class to the li for root items and submenu items..
+### Just give me all info
+Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which will return the following html:
 
-**item\_class**  
-The class for every root li. Defaults to 'nav__item'.
+    <div class="pw_info">   
+        <div class="pw_info__row">   
+            <span class="pw_info__header">Start date:</span>   
+            <span class="pw_info__data">2019-12-04 23:59</span>   
+        </div>   
+        <div class="pw_info__row">   
+            <span class="pw_info__header">End date:</span>   
+            <span class="pw_info__data">2018-12-14 12:12</span>   
+        </div>   
+        <div class="pw_info__row">   
+            <span class="pw_info__header">Cost:</span>   
+            <span class="pw_info__data">200</span>   
+        </div>   
+        <div class="pw_info__row">   
+            <span class="pw_info__header">Location:</span>   
+            <span class="pw_info__data">Kielzog Theater</span>   
+        </div>   
+        <div class="pw_info__row">   
+            <a href="https://kielzog.nl/" class="pw_info__url">Het Kielzog</a>   
+        </div>   
+    </div>
 
-### A submenu list
-**submenu\_class**  
-The class for every ul element inside a list item following a link. The default is 'submenu'.
-
-**submenu\_item\_class**  
-The class for every li element in a submenu. The default is 'submenu__item'.
-
-### Stuff not on the menu
-* Custom links to external sites get a `rel="external"` on the link tag.
-* Since the 'is--active' class is added to an li, it's best to use something like `.is--active > a` in your stylesheet for feedback classes. That way the submenu links don't inherit the active style.
+All info about the event is here. The html is simple, and you should be able to control the styling using the classes.

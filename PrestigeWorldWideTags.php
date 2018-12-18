@@ -186,6 +186,20 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
+     * The {{ prestige_world_wide:has_max_participants }} tag
+     *
+     * @return string
+     */
+    public function hasMaxParticipants()
+    {
+        if (isset($this->context['pw_max_participants'])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * The {{ prestige_world_wide:max_participants }} tag
      *
      * @return string
