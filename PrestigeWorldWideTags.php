@@ -13,6 +13,7 @@ use Statamic\Data\DataCollection;
 use Statamic\API\File;
 use Statamic\API\Yaml;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PrestigeWorldWideTags extends Tags
 {
@@ -114,6 +115,18 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
+     * The {{ prestige_world_wide:organizer_email }} tag
+     *
+     * @return string
+     */
+    public function organizer_email()
+    {
+        if (isset($this->context['pw_organizer_email'])) {
+            return $this->context['pw_organizer_email'];
+        }
+    }
+
+    /**
      * The {{ prestige_world_wide:max_participants }} tag
      *
      * @return string
@@ -139,6 +152,92 @@ class PrestigeWorldWideTags extends Tags
             return $this->submissions($pw_formname, $entry_id);
 
         }
+    }
+
+    /**
+     * The {{ prestige_world_wide:icalendar }} tag
+     *
+     * @return string
+     */
+    public function icalendar()
+    {
+        // Set some variables
+        $title = urlencode($this->context['title']);
+        $organizer = urlencode($this->context['pw_organizer']);
+        $organizer_email = $this->context['pw_organizer_email'];
+
+        // Transform the date sto ISO8601
+        $startdate = new Carbon($this->context['pw_start_date']);
+        $startdate = $this->rfc3339($startdate->toIso8601String());
+        if (isset($this->context['pw_end_date'])) {
+            $enddate = new Carbon($this->context['pw_end_date']);
+            $enddate = $this->rfc3339($enddate->toIso8601String());
+        }
+
+        $vcal = "BEGIN:VCALENDAR\r\n";
+        $vcal .= "VERSION:2.0\r\n";
+        $vcal .= "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r\n";
+        $vcal .= "BEGIN:VEVENT\r\n";
+        $vcal .= "UID:" . $this->context['id'] . "@" . $this->context['site_url'] . "\r\n";
+        $vcal .= "DTSTAMP:19970714T170000Z\r\n";
+        $vcal .= "ORGANIZER;CN=" . $this->context['pw_organizer'] . ":MAILTO:" . $this->context['pw_organizer_email'] . "\r\n";
+        $vcal .= "DTSTART:" . $startdate . "\r\n";
+        if (isset($enddate)) {
+            $vcal .= "DTEND:" . $enddate . "\r\n";
+        }
+        if (isset($title)) {
+            $vcal .= "SUMMARY:" . $title . "\r\n";
+        }
+        // $vcal .= 'GEO:48.85299;2.36885';
+        $vcal .= "END:VEVENT\r\n";
+        $vcal .= "END:VCALENDAR\r\n";
+
+        return "data:text/calendar;charset=utf-8;base64," . base64_encode($vcal);
+    }
+
+    /**
+     * The {{ prestige_world_wide:google_calendar }} tag
+     *
+     * @return string
+     */
+    public function googleCalendar()
+    {
+        // Transform the date sto ISO8601
+        $startdate = new Carbon($this->context['pw_start_date']);
+        $startdate = $this->rfc3339($startdate->toIso8601String());
+        if (isset($this->context['pw_end_date'])) {
+            $enddate = new Carbon($this->context['pw_end_date']);
+            $enddate = $this->rfc3339($enddate->toIso8601String());
+        }
+        $gc = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=';
+        $gc .= urlencode($this->context['title']);
+        $gc .= '&details=';
+        $gc .= 'Details';
+        $gc .= '&location=';
+        $gc .= 'Location';
+        $gc .= '&dates=';
+        $gc .= $startdate;
+        $gc .= '/';
+        if (isset($enddate)) {
+            $gc .= $enddate;
+        }
+        $gc .= '&ctz=';
+        $gc .= $this->context['settings']['system']['timezone'];
+
+        return $gc;
+    }
+
+    /**
+     * Remove certain chars from a date to make a RFC339 datetime
+     *
+     * @return string
+     */
+    private function rfc3339($date)
+    {
+        $chars = array('-', ':');
+        $rfc3339 = str_replace($chars, '', $date);
+        $rfc3339 = substr($rfc3339, 0, strpos($rfc3339, '+'));
+        return $rfc3339;
     }
 
     /**

@@ -38,6 +38,10 @@ fields:
     type: text
     display: "Organizer"
     instructions: "Optional"
+  pw_organizer_email:
+    type: text
+    display: "Emailaddress organizer"
+    instructions: "Optional"
   Signup form:
     type: section
   pw_has_form:
