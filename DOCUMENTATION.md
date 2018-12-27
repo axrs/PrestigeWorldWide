@@ -16,7 +16,7 @@ You can also select which form to use for signups. And if you add a maximum numb
 ## Showing a list of events <a id="list"></a>
 Use these for a list of events. PW adds custom filters to a Statamic collection, the rest is pure Statamic. [More info about collections is here](https://docs.statamic.com/tags/collection).
 
-### Get all future events <a id="future"></a>
+## Get all future events <a id="future"></a>
 See what we've done there?
 
     {{ collection:events filter="prestige_world_wide" remove="past" paginate="true" as="posts" limit="10" }}
@@ -26,7 +26,7 @@ See what we've done there?
         {{ partial:pagination }}
     {{ /collection:events }}
 
-### Get all past events <a id="past"></a>
+## Get all past events <a id="past"></a>
     {{ collection:events filter="prestige_world_wide" remove="future" paginate="true" as="posts" limit="10" }}
         {{ posts scope="pw_start_date" }}
         {{ partial:block }}
@@ -52,7 +52,7 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
 
 ***
 
-### Start date <a id="startdate"></a>
+## Start date <a id="startdate"></a>
 Start date is a required field. Otherwise there would never be an event.
 <table>
     <tbody>
@@ -68,7 +68,7 @@ Start date is a required field. Otherwise there would never be an event.
 
     Start: {{ prestige_world_wide:start_date }}
 
-### End date <a id="enddate"></a>
+## End date <a id="enddate"></a>
 <table>
     <tbody>
         <tr>
@@ -92,7 +92,7 @@ Start date is a required field. Otherwise there would never be an event.
         There is no end date
     {{ /if }}
 
-### Cost <a id="cost"></a>
+## Cost <a id="cost"></a>
 <table>
     <tbody>
         <tr>
@@ -111,7 +111,7 @@ Start date is a required field. Otherwise there would never be an event.
         This event is free
     {{ /if }}
 
-### Location <a id="location"></a>
+## Location <a id="location"></a>
 Maybe use this to geocode a google map?
 <table>
     <tbody>
@@ -131,7 +131,7 @@ Maybe use this to geocode a google map?
         Catalina
     {{ /if }}
 
-### Organizer <a id="organizer"></a>
+## Organizer <a id="organizer"></a>
 <table>
     <tbody>
         <tr>
@@ -150,7 +150,7 @@ Maybe use this to geocode a google map?
         Prestige Worldwide!
     {{ /if }}
 
-### Number of signups <a id="participants"></a>
+## Number of signups <a id="participants"></a>
 <table>
     <tbody>
         <tr>
@@ -165,7 +165,7 @@ Maybe use this to geocode a google map?
 
     {{ prestige_world_wide:participants }}
 
-### Max number of participants <a id="participants"></a>
+## Max number of participants <a id="participants"></a>
 <table>
     <tbody>
         <tr>
@@ -184,7 +184,7 @@ Maybe use this to geocode a google map?
         Just join us!
     {{ /if }}
 
-### If the event is full <a id="full"></a>
+## If the event is full <a id="full"></a>
 <table>
     <tbody>
         <tr>
@@ -203,7 +203,7 @@ Maybe use this to geocode a google map?
         It's not full! :-D
     {{ /if }}
 
-### Export ICS file <a id="ics"></a>
+## Export ICS file <a id="ics"></a>
 <table>
     <tbody>
         <tr>
@@ -218,7 +218,7 @@ Maybe use this to geocode a google map?
 
     <a href="{{ prestige_world_wide:icalendar }}" download title="Download ICS file">Download ICS file</a>
 
-### Add to Google Calendar <a id="gcal"></a>
+## Add to Google Calendar <a id="gcal"></a>
 <table>
     <tbody>
         <tr>
@@ -233,7 +233,7 @@ Maybe use this to geocode a google map?
 
     <a href="{{ prestige_world_wide:google_calendar }}" title="Add to Google Calendar">Google Calendar</a>
 
-### If people can sign up and a form was selected <a id="form"></a>
+## If people can sign up and a form was selected <a id="form"></a>
 <table>
     <tbody>
         <tr>
@@ -250,7 +250,7 @@ Maybe use this to geocode a google map?
         `form tag`
     {{ /if }}
 
-### Just give me all info <a id="allinfo"></a>
+## Just give me all info <a id="allinfo"></a>
 Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which will return the following html:
 
     <div class="pw_info">   
