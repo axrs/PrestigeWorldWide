@@ -45,6 +45,8 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
 * [Number of signups](#participants)
 * [Max number of participants](#maxparticipants)
 * [Full or not?](#full)
+* [ICS export](#ics)
+* [Add to Google Calendar](#gcal)
 * [Form or not?](#form)
 * [I'm feeling lazy](#allinfo)
 
@@ -201,6 +203,36 @@ Maybe use this to geocode a google map?
         It's not full! :-D
     {{ /if }}
 
+### Export ICS file <a id="ics"></a>
+<table>
+    <tbody>
+        <tr>
+            <td>Get</td>
+            <td>`{{ prestige_world_wide:icalendar }}`</td>
+            <td>Returns a file</td>
+        </tr>
+    </tbody>
+</table>
+
+**Example**   
+
+    <a href="{{ prestige_world_wide:icalendar }}" download title="Download ICS file">Download ICS file</a>
+
+### Add to Google Calendar <a id="gcal"></a>
+<table>
+    <tbody>
+        <tr>
+            <td>Get</td>
+            <td>`{{ prestige_world_wide:google_calendar }}`</td>
+            <td>Returns a url</td>
+        </tr>
+    </tbody>
+</table>
+
+**Example**   
+
+    <a href="{{ prestige_world_wide:google_calendar }}" title="Add to Google Calendar">Google Calendar</a>
+
 ### If people can sign up and a form was selected <a id="form"></a>
 <table>
     <tbody>
@@ -247,8 +279,18 @@ Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which 
             <span class="pw_info__data pw_info__data--maxparticipants">100</span>   
         </div>   
         <div class="pw_info__row pw_info__row--url">   
-            <a href="https://www.urbandictionary.com/define.php?term=Prestige%20Worldwide" class="pw_info__url">Prestige Worldwide</a>   
-        </div>   
+            <a href="https://www.urbandictionary.com/define.php?term=Prestige%20Worldwide" class="pw_info__url" title="More info">Prestige Worldwide</a>   
+        </div>
+        <div class="pw_info__row pw_info__row--export">
+            <ul class="pw_export">
+                <li>
+                    <a href="#" class="pw_export__ical" title="Download ICS file"><span>Icalendar</span></a>
+                </li>
+                <li>
+                    <a href="#" class="pw_export__gcal" title="Add to Google Calendar"><span>Add to Google Calendar</span></a>
+                </li>
+            </ul>
+        </div>
         <div class="pw_info__row pw_info__row--full">   
             <span class="pw_info__header pw_info__header--full">Sorry, it's full!</span>   
         </div>   

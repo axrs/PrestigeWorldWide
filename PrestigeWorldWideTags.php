@@ -164,7 +164,7 @@ class PrestigeWorldWideTags extends Tags
         // Set some variables
         $title = urlencode($this->context['title']);
         $organizer = urlencode($this->context['pw_organizer']);
-        $organizer_email = $this->context['pw_organizer_email'];
+        $organizer_email = isset($this->context['pw_organizer_email']);
 
         // Transform the date sto ISO8601
         $startdate = new Carbon($this->context['pw_start_date']);
@@ -180,7 +180,7 @@ class PrestigeWorldWideTags extends Tags
         $vcal .= "BEGIN:VEVENT\r\n";
         $vcal .= "UID:" . $this->context['id'] . "@" . $this->context['site_url'] . "\r\n";
         $vcal .= "DTSTAMP:19970714T170000Z\r\n";
-        $vcal .= "ORGANIZER;CN=" . $this->context['pw_organizer'] . ":MAILTO:" . $this->context['pw_organizer_email'] . "\r\n";
+        $vcal .= "ORGANIZER;CN=" . $this->context['pw_organizer'] . ":MAILTO:" . isset($this->context['pw_organizer_email']) . "\r\n";
         $vcal .= "DTSTART:" . $startdate . "\r\n";
         if (isset($enddate)) {
             $vcal .= "DTEND:" . $enddate . "\r\n";
@@ -211,10 +211,8 @@ class PrestigeWorldWideTags extends Tags
         }
         $gc = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=';
         $gc .= urlencode($this->context['title']);
-        $gc .= '&details=';
-        $gc .= 'Details';
         $gc .= '&location=';
-        $gc .= 'Location';
+        $gc .= $this->context['pw_organizer'];
         $gc .= '&dates=';
         $gc .= $startdate;
         $gc .= '/';
@@ -247,7 +245,7 @@ class PrestigeWorldWideTags extends Tags
      */
     public function hasForm()
     {
-        if ($this->context['pw_has_form'] == true && isset($this->context['pw_form'])) {
+        if (isset($this->context['pw_has_form']) && isset($this->context['pw_form'])) {
             return true;
         } else {
             return false;
@@ -345,13 +343,27 @@ class PrestigeWorldWideTags extends Tags
         }
         if ($this->url()) {
             $html .= '<div class="pw_info__row pw_info__row--url">';
-            $html .= '<a href="' . $this->url() .  '" class="pw_info__url">';
+            $html .= '<a href="' . $this->url() .  '" class="pw_info__url" title="More info">';
             if ($this->organizer() == true) {
                 $html .= $this->organizer();
             }
             $html .= '</a>';
             $html .= '</div>';
         }
+        $html .= '<div class="pw_info__row pw_info__row--export">';
+        $html .= '<ul class="pw_export">';
+        $html .= '<li>';
+        $html .= '<a href="' . $this->icalendar() .  '" class="pw_export__ical" title="Download ICS file">';
+        $html .= '<span>Icalendar</span>';
+        $html .= '</a>';
+        $html .= '</li>';
+        $html .= '<li>';
+        $html .= '<a href="' . $this->googleCalendar() .  '" class="pw_export__gcal" title="Add to Google Calendar">';
+        $html .= '<span>Add to Google Calendar</span>';
+        $html .= '</a>';
+        $html .= '</li>';
+        $html .= '</ul>';
+        $html .= '</div>';
         if (!$this->form()) {
             if ($this->isFull()) {
                 $html .= '<div class="pw_info__row pw_info__row--full">';
