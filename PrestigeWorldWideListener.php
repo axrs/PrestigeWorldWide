@@ -12,7 +12,6 @@ use Statamic\API\Collection;
 use Statamic\Extend\Listener;
 use Statamic\Events\Data\FindingFieldset;
 use Illuminate\Support\Facades\Cache;
-use Statamic\Addons\SeoPro\Sitemap\Sitemap;
 use Statamic\Contracts\Forms\Submission;
 use Illuminate\Http\Response;
 
