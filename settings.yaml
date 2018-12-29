@@ -1,5 +1,4 @@
 fields:
   my_collections_field:
-    display: "Which collection shall I use for events?"
     type: collections
     max_items: 1
