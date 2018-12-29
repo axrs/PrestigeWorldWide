@@ -284,10 +284,14 @@ Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which 
         <div class="pw_info__row pw_info__row--export">
             <ul class="pw_export">
                 <li>
-                    <a href="#" class="pw_export__ical" title="Download ICS file"><span>Icalendar</span></a>
+                    <a href="#" class="pw_export__ical" title="Download ICS file">
+                        <span>Icalendar</span>
+                    </a>
                 </li>
                 <li>
-                    <a href="#" class="pw_export__gcal" title="Add to Google Calendar"><span>Add to Google Calendar</span></a>
+                    <a href="#" class="pw_export__gcal" title="Add to Google Calendar">
+                        <span>Add to Google Calendar</span>
+                    </a>
                 </li>
             </ul>
         </div>
