@@ -50,7 +50,7 @@ fields:
     default: false
   pw_form:
     type: suggest
-    mode: prestige-world-wide.forms
+    mode: prestige-world-wide
     max_items: 1
     display: "Which form should I use for signups?"
     show_when:
