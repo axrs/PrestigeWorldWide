@@ -46,7 +46,8 @@ class PrestigeWorldWideTags extends Tags
      */
     public function hasEndDate()
     {
-        if ($this->context['pw_has_end_date'] == true) {
+        // if ($this->context['pw_has_end_date'] == true) {
+        if (isset($this->context['pw_has_end_date'])) {
             return true;
         } else {
             return false;
@@ -163,12 +164,17 @@ class PrestigeWorldWideTags extends Tags
     {
         // Set some variables
         $title = urlencode($this->context['title']);
-        $organizer = urlencode($this->context['pw_organizer']);
+
+        if (isset($this->context['pw_organizer'])) {
+            $organizer = urlencode($this->context['pw_organizer']);
+        }
         $organizer_email = isset($this->context['pw_organizer_email']);
 
         // Transform the date sto ISO8601
-        $startdate = new Carbon($this->context['pw_start_date']);
-        $startdate = $this->rfc3339($startdate->toIso8601String());
+        if (isset($this->context['pw_start_date'])) {
+            $startdate = new Carbon($this->context['pw_start_date']);
+            $startdate = $this->rfc3339($startdate->toIso8601String());
+        }
         if (isset($this->context['pw_end_date'])) {
             $enddate = new Carbon($this->context['pw_end_date']);
             $enddate = $this->rfc3339($enddate->toIso8601String());
@@ -180,8 +186,12 @@ class PrestigeWorldWideTags extends Tags
         $vcal .= "BEGIN:VEVENT\r\n";
         $vcal .= "UID:" . $this->context['id'] . "@" . $this->context['site_url'] . "\r\n";
         $vcal .= "DTSTAMP:19970714T170000Z\r\n";
-        $vcal .= "ORGANIZER;CN=" . $this->context['pw_organizer'] . ":MAILTO:" . isset($this->context['pw_organizer_email']) . "\r\n";
-        $vcal .= "DTSTART:" . $startdate . "\r\n";
+        if (isset($this->context['pw_organizer'])) {
+            $vcal .= "ORGANIZER;CN=" . $this->context['pw_organizer'] . ":MAILTO:" . isset($this->context['pw_organizer_email']) . "\r\n";
+        }
+        if (isset($startdate)) {
+            $vcal .= "DTSTART:" . $startdate . "\r\n";
+        }
         if (isset($enddate)) {
             $vcal .= "DTEND:" . $enddate . "\r\n";
         }
@@ -203,8 +213,10 @@ class PrestigeWorldWideTags extends Tags
     public function googleCalendar()
     {
         // Transform the date sto ISO8601
-        $startdate = new Carbon($this->context['pw_start_date']);
-        $startdate = $this->rfc3339($startdate->toIso8601String());
+        if (isset($this->context['pw_start_date'])) {
+            $startdate = new Carbon($this->context['pw_start_date']);
+            $startdate = $this->rfc3339($startdate->toIso8601String());
+        }
         if (isset($this->context['pw_end_date'])) {
             $enddate = new Carbon($this->context['pw_end_date']);
             $enddate = $this->rfc3339($enddate->toIso8601String());
@@ -212,9 +224,13 @@ class PrestigeWorldWideTags extends Tags
         $gc = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=';
         $gc .= urlencode($this->context['title']);
         $gc .= '&location=';
-        $gc .= $this->context['pw_organizer'];
+        if (isset($this->context['pw_organizer'])) {
+            $gc .= $this->context['pw_organizer'];
+        }
         $gc .= '&dates=';
-        $gc .= $startdate;
+        if (isset($startdate)) {
+            $gc .= $startdate;
+        }
         $gc .= '/';
         if (isset($enddate)) {
             $gc .= $enddate;
