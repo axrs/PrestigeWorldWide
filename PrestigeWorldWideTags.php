@@ -168,7 +168,9 @@ class PrestigeWorldWideTags extends Tags
         if (isset($this->context['pw_organizer'])) {
             $organizer = urlencode($this->context['pw_organizer']);
         }
-        $organizer_email = isset($this->context['pw_organizer_email']);
+        if (isset($this->context['pw_organizer_email'])) {
+            $organizer_email = isset($this->context['pw_organizer_email']);
+        }
 
         // Transform the date sto ISO8601
         if (isset($this->context['pw_start_date'])) {
