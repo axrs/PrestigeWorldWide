@@ -40,21 +40,6 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:has_end_date }} tag
-     *
-     * @return string
-     */
-    public function hasEndDate()
-    {
-        // if ($this->context['pw_has_end_date'] == true) {
-        if (isset($this->context['pw_has_end_date'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * The {{ prestige_world_wide:end_date }} tag
      *
      * @return string
@@ -330,11 +315,9 @@ class PrestigeWorldWideTags extends Tags
         $html .= '<div class="pw_info__row pw_info__row--startdate">';
         $html .= '<span class="pw_info__header pw_info__header--startdate">Start date:</span> <span class="pw_info__data pw_info__data--startdate">' . $this->startDate() . '</span>';
         $html .= '</div>';
-        if ($this->hasEndDate() == true) {
-            $html .= '<div class="pw_info__row pw_info__row--enddate">';
-            $html .= '<span class="pw_info__header pw_info__header--enddate">End date:</span> <span class="pw_info__data pw_info__data--enddate">' . $this->endDate() . '</span>';
-            $html .= '</div>';
-        }
+        $html .= '<div class="pw_info__row pw_info__row--enddate">';
+        $html .= '<span class="pw_info__header pw_info__header--enddate">End date:</span> <span class="pw_info__data pw_info__data--enddate">' . $this->endDate() . '</span>';
+        $html .= '</div>';
         if ($this->costs()) {
             $html .= '<div class="pw_info__row pw_info__row--cost">';
             $html .= '<span class="pw_info__header pw_info__header--cost">Cost:</span> <span class="pw_info__data pw_info__data--cost">' . $this->costs() . '</span>';

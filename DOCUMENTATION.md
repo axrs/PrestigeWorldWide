@@ -72,11 +72,6 @@ Start date is a required field. Otherwise there would never be an event.
 <table>
     <tbody>
         <tr>
-            <td>Check</td>
-            <td>`{{ if {prestige_world_wide:has_end_date} }}{{ /if }}`</td>
-            <td>Returns true/false</td>
-        </tr>
-        <tr>
             <td>Get</td>
             <td>`{{ prestige_world_wide:end_date }}`</td>
             <td>Returns a date</td>
@@ -86,11 +81,7 @@ Start date is a required field. Otherwise there would never be an event.
 
 **Example**   
 
-    {{ if {prestige_world_wide:has_end_date} }}
-        Ends: {{ prestige_world_wide:end_date }}
-    {{ else }}
-        There is no end date
-    {{ /if }}
+    Start: {{ prestige_world_wide:end_date }}
 
 ## Cost <a id="cost"></a>
 <table>
