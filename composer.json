@@ -1,5 +1,6 @@
 {
     "name": "wout-mager/prestigeworldwide",
     "require": {
+        "simshaun/recurr": "^3.1"
     }
 }
