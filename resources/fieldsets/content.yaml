@@ -1,32 +1,92 @@
 fields:
   dates:
-    display: "Date & time info"
     type: section
+    display: "Date & time info"
   pw_start_date:
     type: date
-    display: "Start date"
+    display: "Start date/time"
+    instructions: "Required"
     width: 50
     require_time: true
-    instructions: "The start date is required"
-    validate: required
-  pw_has_end_date:
-    type: toggle
-    display: "This event has an end date and/or time"
-    default: false
+    # validate: required
   pw_end_date:
     type: date
-    display: "End date"
+    display: "End date/time"
+    instructions: "Required"
     width: 50
-    show_when:
-      pw_has_end_date: true
     require_time: true
+    # validate: required
+  pw_recurring:
+    type: toggle
+    display: "This is a recurring event"
+    default: false
+  pw_recurring_pattern:
+    type: radio
+    display: "Recurring pattern"
+    inline: true
+    options:
+      daily: Daily
+      weekly: Weekly
+      monthly: Monthly
+      yearly: Yearly
+    show_when:
+      pw_recurring: true
+  pw_recurring_daily:
+    type: text
+    display: "Every # days"
+    mode: number
+    width: 25
+    show_when:
+      pw_recurring_pattern: daily
+      pw_recurring: true
+  pw_recurring_weekly:
+    type: text
+    display: "Every # weeks"
+    mode: number
+    width: 25
+    show_when:
+      pw_recurring_pattern: weekly
+      pw_recurring: true
+  pw_recurring_monthly:
+    type: text
+    display: "Every # months"
+    mode: number
+    width: 25
+    show_when:
+      pw_recurring_pattern: monthly
+      pw_recurring: true
+  pw_recurring_yearly:
+    type: text
+    display: "Every # years"
+    mode: number
+    width: 25
+    show_when:
+      pw_recurring_pattern: yearly
+      pw_recurring: true
+  pw_recurring_ends:
+    type: select
+    display: "Series ends"
+    width: 25
+    options:
+      after: After
+    default: after
+    show_when:
+      pw_recurring_pattern: not null
+      pw_recurring: true
+  pw_recurring_amount:
+    type: text
+    display: "# Of events"
+    width: 25
+    show_when:
+      pw_recurring_pattern: not null
+      pw_recurring: true
   Other_info:
     type: section
   pw_costs:
-    width: 50
     type: text
     display: "Cost"
     instructions: "Add anything you want. You can say it's free, 1 dollar, 1 euro or nothing at all"
+    width: 50
   pw_location:
     type: text
     display: "Address or location"
@@ -50,15 +110,15 @@ fields:
     default: false
   pw_form:
     type: suggest
+    display: "Which form should I use for signups?"
     mode: prestige-world-wide
     max_items: 1
-    display: "Which form should I use for signups?"
     show_when:
       pw_has_form: true
   pw_max_participants:
-    validate: integer
     type: text
     display: "Maximum number of participants"
     instructions: "Keep empty if there is no limit."
+    validate: integer
     show_when:
       pw_has_form: true
