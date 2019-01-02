@@ -4,15 +4,15 @@ fields:
     display: "Date & time info"
   pw_start_date:
     type: date
-    display: "Start date/time"
-    instructions: "Required"
+    display: "Starts"
+    # instructions: "Required"
     width: 50
     require_time: true
     # validate: required
   pw_end_date:
     type: date
-    display: "End date/time"
-    instructions: "Required"
+    display: "Ends"
+    # instructions: "Required"
     width: 50
     require_time: true
     # validate: required
@@ -20,15 +20,15 @@ fields:
     type: toggle
     display: "This is a recurring event"
     default: false
-  pw_recurring_pattern:
+  pw_recurring_frequency:
     type: radio
     display: "Recurring pattern"
     inline: true
     options:
-      daily: Daily
-      weekly: Weekly
-      monthly: Monthly
-      yearly: Yearly
+      DAILY: Daily
+      WEEKLY: Weekly
+      MONTHLY: Monthly
+      YEARLY: Yearly
     show_when:
       pw_recurring: true
   pw_recurring_daily:
@@ -37,7 +37,7 @@ fields:
     mode: number
     width: 25
     show_when:
-      pw_recurring_pattern: not null
+      pw_recurring_frequency: not null
       pw_recurring: true
   pw_recurring_ends:
     type: select
@@ -48,22 +48,22 @@ fields:
       on: On
     default: after
     show_when:
-      pw_recurring_pattern: not null
+      pw_recurring_frequency: not null
       pw_recurring: true
-  pw_recurring_amount:
+  pw_recurring_count:
     type: text
     display: "# Of events"
     width: 25
     mode: number
     show_when:
-      pw_recurring_pattern: not null
+      pw_recurring_frequency: not null
       pw_recurring_ends: after
-  pw_recurring_end:
+  pw_recurring_until:
     type: date
     display: "Date"
     width: 25
     show_when:
-      pw_recurring_pattern: not null
+      pw_recurring_frequency: not null
       pw_recurring_ends: on
   Other_info:
     type: section
