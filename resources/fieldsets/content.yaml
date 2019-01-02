@@ -69,6 +69,7 @@ fields:
     width: 25
     options:
       after: After
+      on: On (a date)
     default: after
     show_when:
       pw_recurring_pattern: not null
@@ -78,8 +79,13 @@ fields:
     display: "# Of events"
     width: 25
     show_when:
-      pw_recurring_pattern: not null
-      pw_recurring: true
+      pw_recurring_ends: after
+  pw_recurring_end:
+    type: date
+    display: "Date"
+    width: 25
+    show_when:
+      pw_recurring_ends: on
   Other_info:
     type: section
   pw_costs:

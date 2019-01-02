@@ -2,6 +2,8 @@
 
 namespace Statamic\Addons\PrestigeWorldWide\Commands;
 
+use Recurr\Rule;
+use Recurr\Transformer;
 use Statamic\API\Helper;
 use Statamic\API\Stache;
 use Statamic\API\Collection;
@@ -46,6 +48,20 @@ class RecurringCommand extends Command
         $eventsCollection   = $this->getConfig('my_collections_field');
         $collection         = Entry::whereCollection($eventsCollection);
 
+        //
+        $timezone    = 'America/New_York';
+        $startDate = new \DateTime('2013-06-12 20:00:00', new \DateTimeZone($timezone));
+
+        $rule = (new Rule)
+            ->setStartDate($startDate)
+            ->setTimezone($timezone)
+            ->setFreq('DAILY')
+            ->setByDay(['MO', 'TU'])
+            ->setUntil(new \DateTime('2017-12-31'));
+
+        print 'rule: ' . $rule->getString();
+
+        //
         foreach ($collection as $entry) {
 
             if ($entry->has('pw_recurring')) {
@@ -79,7 +95,7 @@ class RecurringCommand extends Command
                 $duplicate_entry->id( Helper::makeUuid() );
 
                 // And finally... save it
-                $duplicate_entry->save();
+                // $duplicate_entry->save();
 
                 // Update the stache
                 Stache::update();
