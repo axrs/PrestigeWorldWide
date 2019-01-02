@@ -33,35 +33,11 @@ fields:
       pw_recurring: true
   pw_recurring_daily:
     type: text
-    display: "Every # days"
+    display: "Every #"
     mode: number
     width: 25
     show_when:
-      pw_recurring_pattern: daily
-      pw_recurring: true
-  pw_recurring_weekly:
-    type: text
-    display: "Every # weeks"
-    mode: number
-    width: 25
-    show_when:
-      pw_recurring_pattern: weekly
-      pw_recurring: true
-  pw_recurring_monthly:
-    type: text
-    display: "Every # months"
-    mode: number
-    width: 25
-    show_when:
-      pw_recurring_pattern: monthly
-      pw_recurring: true
-  pw_recurring_yearly:
-    type: text
-    display: "Every # years"
-    mode: number
-    width: 25
-    show_when:
-      pw_recurring_pattern: yearly
+      pw_recurring_pattern: not null
       pw_recurring: true
   pw_recurring_ends:
     type: select
@@ -69,7 +45,7 @@ fields:
     width: 25
     options:
       after: After
-      on: On (a date)
+      on: On
     default: after
     show_when:
       pw_recurring_pattern: not null
@@ -78,13 +54,16 @@ fields:
     type: text
     display: "# Of events"
     width: 25
+    mode: number
     show_when:
+      pw_recurring_pattern: not null
       pw_recurring_ends: after
   pw_recurring_end:
     type: date
     display: "Date"
     width: 25
     show_when:
+      pw_recurring_pattern: not null
       pw_recurring_ends: on
   Other_info:
     type: section
@@ -108,6 +87,7 @@ fields:
     type: text
     display: "Emailaddress organizer"
     instructions: "Optional"
+    mode: email
   Signup form:
     type: section
   pw_has_form:
