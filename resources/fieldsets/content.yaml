@@ -22,7 +22,7 @@ fields:
     default: false
   pw_recurring_frequency:
     type: radio
-    display: "Recurring pattern"
+    display: "Frequency"
     inline: true
     options:
       DAILY: Daily
@@ -31,7 +31,7 @@ fields:
       YEARLY: Yearly
     show_when:
       pw_recurring: true
-  pw_recurring_daily:
+  pw_recurring_interval:
     type: text
     display: "Every #"
     mode: number
