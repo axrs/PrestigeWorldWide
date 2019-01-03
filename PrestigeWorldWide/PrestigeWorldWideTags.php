@@ -4,6 +4,7 @@ namespace Statamic\Addons\PrestigeWorldWide;
 
 use Recurr\Rule;
 use Recurr\Transformer;
+use Spatie\CalendarLinks\Link;
 use Statamic\Contracts\Forms\Submission;
 use Statamic\API\Form;
 use Statamic\API\Entry;
@@ -155,49 +156,7 @@ class PrestigeWorldWideTags extends Tags
      */
     public function icalendar()
     {
-        // Set some variables
-        $title = urlencode($this->context['title']);
-
-        if (isset($this->context['pw_organizer'])) {
-            $organizer = urlencode($this->context['pw_organizer']);
-        }
-        if (isset($this->context['pw_organizer_email'])) {
-            $organizer_email = isset($this->context['pw_organizer_email']);
-        }
-
-        // Transform the date sto ISO8601
-        if (isset($this->context['pw_start_date'])) {
-            $startdate = new Carbon($this->context['pw_start_date']);
-            $startdate = $this->rfc3339($startdate->toIso8601String());
-        }
-        if (isset($this->context['pw_end_date'])) {
-            $enddate = new Carbon($this->context['pw_end_date']);
-            $enddate = $this->rfc3339($enddate->toIso8601String());
-        }
-
-        $vcal = "BEGIN:VCALENDAR\r\n";
-        $vcal .= "VERSION:2.0\r\n";
-        $vcal .= "PRODID:-//hacksw/handcal//NONSGML v1.0//EN\r\n";
-        $vcal .= "BEGIN:VEVENT\r\n";
-        $vcal .= "UID:" . $this->context['id'] . "@" . $this->context['site_url'] . "\r\n";
-        $vcal .= "DTSTAMP:19970714T170000Z\r\n";
-        if (isset($this->context['pw_organizer'])) {
-            $vcal .= "ORGANIZER;CN=" . $this->context['pw_organizer'] . ":MAILTO:" . isset($this->context['pw_organizer_email']) . "\r\n";
-        }
-        if (isset($startdate)) {
-            $vcal .= "DTSTART:" . $startdate . "\r\n";
-        }
-        if (isset($enddate)) {
-            $vcal .= "DTEND:" . $enddate . "\r\n";
-        }
-        if (isset($title)) {
-            $vcal .= "SUMMARY:" . $title . "\r\n";
-        }
-        // $vcal .= 'GEO:48.85299;2.36885';
-        $vcal .= "END:VEVENT\r\n";
-        $vcal .= "END:VCALENDAR\r\n";
-
-        return "data:text/calendar;charset=utf-8;base64," . base64_encode($vcal);
+        return $this->calendarLink('ics');
     }
 
     /**
@@ -207,33 +166,28 @@ class PrestigeWorldWideTags extends Tags
      */
     public function googleCalendar()
     {
-        // Transform the date sto ISO8601
-        if (isset($this->context['pw_start_date'])) {
-            $startdate = new Carbon($this->context['pw_start_date']);
-            $startdate = $this->rfc3339($startdate->toIso8601String());
-        }
-        if (isset($this->context['pw_end_date'])) {
-            $enddate = new Carbon($this->context['pw_end_date']);
-            $enddate = $this->rfc3339($enddate->toIso8601String());
-        }
-        $gc = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=';
-        $gc .= urlencode($this->context['title']);
-        $gc .= '&location=';
-        if (isset($this->context['pw_organizer'])) {
-            $gc .= $this->context['pw_organizer'];
-        }
-        $gc .= '&dates=';
-        if (isset($startdate)) {
-            $gc .= $startdate;
-        }
-        $gc .= '/';
-        if (isset($enddate)) {
-            $gc .= $enddate;
-        }
-        $gc .= '&ctz=';
-        $gc .= $this->context['settings']['system']['timezone'];
+        return $this->calendarLink('google');
+    }
 
-        return $gc;
+    /**
+     * The {{ prestige_world_wide:google_calendar }} tag
+     *
+     * @return string
+     */
+    private function calendarLink($type)
+    {
+        $from = \DateTime::createFromFormat('Y-m-d H:i', $this->startDate());
+        $to = \DateTime::createFromFormat('Y-m-d H:i', $this->endDate());
+
+        $link = Link::create(urlencode($this->context['title']), $from, $to)
+            ->description('')
+            ->address($this->context['pw_location']);
+
+        if ($type == 'ics') {
+            return $link->ics();
+        } elseif ($type == 'google') {
+            return $link->google();
+        }
     }
 
     /**
