@@ -34,112 +34,48 @@ See what we've done there?
         {{ partial:pagination }}
     {{ /collection:events }}
 
-## Detail page tags <a id="detail"></a>
-The idea of PW is to give you the freedom to build your eventpage the way you want to. You can use the following tags:
+## Detail page info & tags <a id="detail"></a>
+The idea of PW is to give you the freedom to build your eventpage the way you want to. You can use the following variables and tags:
 
-* [Start date](#startdate)
-* [End date](#enddate)
-* [Cost](#cost)
-* [Location](#location)
-* [Organizer](#Organizer)
+### Variables
+* Start date: `{{ pw_start_date }}`
+* End date: `{{ pw_end_date }}`
+* Cost: `{{ pw_costs }}`
+* Location: `{{ pw_location }}`
+* URL: `{{ pw_url }}`
+* Organizer: `{{ pw_organizer }}`
+* Organizer email: `{{ pw_organizer_email }}`
+* Max participants: `{{ pw_max_participants }}`
+* Has a form: `{{ pw_has_form }}`
+
+### Tags
+* [Recurring dates](#recurring)
 * [Number of signups](#participants)
-* [Max number of participants](#maxparticipants)
 * [Full or not?](#full)
 * [ICS export](#ics)
 * [Add to Google Calendar](#gcal)
 * [Form or not?](#form)
-* [I'm feeling lazy](#allinfo)
 
 ***
 
-## Start date <a id="startdate"></a>
-Start date is a required field. Otherwise there would never be an event.
+## Recurring dates <a id="recurring"></a>
 <table>
     <tbody>
         <tr>
             <td>Get</td>
-            <td>`{{ prestige_world_wide:start_date }}`</td>
-            <td>Returns a date</td>
+            <td>`{{ prestige_world_wide:recurring }}{{ /prestige_world_wide:recurring }}`</td>
+            <td>Returns an array</td>
         </tr>
     </tbody>
 </table>
 
 **Example**   
 
-    Start: {{ prestige_world_wide:start_date }}
-
-## End date <a id="enddate"></a>
-<table>
-    <tbody>
-        <tr>
-            <td>Get</td>
-            <td>`{{ prestige_world_wide:end_date }}`</td>
-            <td>Returns a date</td>
-        </tr>
-    </tbody>
-</table>
-
-**Example**   
-
-    Start: {{ prestige_world_wide:end_date }}
-
-## Cost <a id="cost"></a>
-<table>
-    <tbody>
-        <tr>
-            <td>Get</td>
-            <td>`{{ prestige_world_wide:costs }}`</td>
-            <td>Returns a string</td>
-        </tr>
-    </tbody>
-</table>
-
-**Example**   
-
-    {{ if {prestige_world_wide:costs} }}
-        How much? {{ prestige_world_wide:costs }}
-    {{ else }}
-        This event is free
-    {{ /if }}
-
-## Location <a id="location"></a>
-Maybe use this to geocode a google map?
-<table>
-    <tbody>
-        <tr>
-            <td>Get</td>
-            <td>`{{ prestige_world_wide:location }}`</td>
-            <td>Returns a string</td>
-        </tr>
-    </tbody>
-</table>
-
-**Example**   
-
-    {{ if {prestige_world_wide:location} }}
-        Location: {{ prestige_world_wide:location }}
-    {{ else }}
-        Catalina
-    {{ /if }}
-
-## Organizer <a id="organizer"></a>
-<table>
-    <tbody>
-        <tr>
-            <td>Get</td>
-            <td>`{{ prestige_world_wide:organizer }}`</td>
-            <td>Returns a string</td>
-        </tr>
-    </tbody>
-</table>
-
-**Example**   
-
-    {{ if {prestige_world_wide:organizer} }}
-        Who? {{ prestige_world_wide:organizer }}
-    {{ else }}
-        Prestige Worldwide!
-    {{ /if }}
+    <ul>
+        {{ prestige_world_wide:recurring }}
+        <li>{{ start format="j F Y, G:i" }} - {{ end format="j F Y, G:i" }}</li>
+        {{ /prestige_world_wide:recurring }}
+    </ul>
 
 ## Number of signups <a id="participants"></a>
 <table>
@@ -155,25 +91,6 @@ Maybe use this to geocode a google map?
 **Example**   
 
     {{ prestige_world_wide:participants }}
-
-## Max number of participants <a id="participants"></a>
-<table>
-    <tbody>
-        <tr>
-            <td>Get</td>
-            <td>`{{ prestige_world_wide:max_participants }}`</td>
-            <td>Returns a string</td>
-        </tr>
-    </tbody>
-</table>
-
-**Example**   
-
-    {{ if {prestige_world_wide:max_participants} }}
-        This event is limited to: {{ prestige_world_wide:max_participants }}
-    {{ else }}
-        Just join us!
-    {{ /if }}
 
 ## If the event is full <a id="full"></a>
 <table>
@@ -223,75 +140,6 @@ Maybe use this to geocode a google map?
 **Example**   
 
     <a href="{{ prestige_world_wide:google_calendar }}" title="Add to Google Calendar">Google Calendar</a>
-
-## If people can sign up and a form was selected <a id="form"></a>
-<table>
-    <tbody>
-        <tr>
-            <td>Check</td>
-            <td>`{{ if {prestige_world_wide:has_form} }}{{ /if }}`</td>
-            <td>Returns true/false</td>
-        </tr>
-    </tbody>
-</table>
-
-**Example**   
-
-    {{ if {prestige_world_wide:has_form} }}
-        `form tag`
-    {{ /if }}
-
-## Just give me all info <a id="allinfo"></a>
-Feeling lazy? Just add `{{ prestige_world_wide:info }}` in your front-end which will return the following html:
-
-    <div class="pw_info">   
-        <div class="pw_info__row pw_info__row--startdate">   
-            <span class="pw_info__header pw_info__header--startdate">Start date:</span>   
-            <span class="pw_info__data pw_info__data--startdate">2018-12-04 12:00</span>   
-        </div>   
-        <div class="pw_info__row pw_info__row--enddate">   
-            <span class="pw_info__header pw_info__header--enddate">End date:</span>   
-            <span class="pw_info__data pw_info__data--enddate">2018-12-05 12:00</span>   
-        </div>   
-        <div class="pw_info__row pw_info__row--cost">   
-            <span class="pw_info__header pw_info__header--cost">Cost:</span>   
-            <span class="pw_info__data pw_info__data--cost">200 Dollars</span>   
-        </div>   
-        <div class="pw_info__row pw_info__row--location">   
-            <span class="pw_info__header pw_info__header--location">Location:</span>   
-            <span class="pw_info__data pw_info__data--location">Catalina</span>   
-        </div>   
-        <div class="pw_info__row pw_info__row--participants">   
-            <span class="pw_info__header pw_info__header--participants">Signups:</span>   
-            <span class="pw_info__data pw_info__data--participants">50</span>   
-        </div>   
-        <div class="pw_info__row pw_info__row--maxparticipants">   
-            <span class="pw_info__header pw_info__header--maxparticipants">Max # of participants:</span>   
-            <span class="pw_info__data pw_info__data--maxparticipants">100</span>   
-        </div>   
-        <div class="pw_info__row pw_info__row--url">   
-            <a href="https://www.urbandictionary.com/define.php?term=Prestige%20Worldwide" class="pw_info__url" title="More info">Prestige Worldwide</a>   
-        </div>
-        <div class="pw_info__row pw_info__row--export">
-            <ul class="pw_export">
-                <li>
-                    <a href="#" class="pw_export__ical" title="Download ICS file">
-                        <span>Icalendar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="pw_export__gcal" title="Add to Google Calendar">
-                        <span>Add to Google Calendar</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="pw_info__row pw_info__row--full">   
-            <span class="pw_info__header pw_info__header--full">Sorry, it's full!</span>   
-        </div>   
-    </div>
-
-All event info is here, but there's no way of altering the output. The html is simple, and you should be able to control the styling using the classes. This tag doesn't output a signup form. If you wrap the form in `{{ if {prestige_world_wide:has_form} }}{{ if !{prestige_world_wide:is_full} }}` the form won't show when the event is full.
 
 ## Signup form <a id="form"></a>
 If you selected a form you will have to add the code for that form on the event page. More info about adding a form is [in the Statamic docs here](https://docs.statamic.com/forms#main). You don't have to add any extra fields for PW, it does that by itself. __The only requirement is that the form must exist on the event page__. You can use 1 form for all events, or use 1 form for each event. It's up to you. Wrap the form in `{{ if {prestige_world_wide:has_form} }}{{ if !{prestige_world_wide:is_full} }}` to hide it when the event is full.

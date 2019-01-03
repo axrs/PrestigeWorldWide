@@ -5,17 +5,13 @@ fields:
   pw_start_date:
     type: date
     display: "Starts"
-    # instructions: "Required"
     width: 50
     require_time: true
-    # validate: required
   pw_end_date:
     type: date
     display: "Ends"
-    # instructions: "Required"
     width: 50
     require_time: true
-    # validate: required
   pw_recurring:
     type: toggle
     display: "This is a recurring event"
@@ -39,6 +35,7 @@ fields:
     show_when:
       pw_recurring_frequency: not null
       pw_recurring: true
+    validate:
   pw_recurring_ends:
     type: select
     display: "Series ends"
@@ -65,6 +62,7 @@ fields:
     show_when:
       pw_recurring_frequency: not null
       pw_recurring_ends: on
+      pw_recurring: true
   Other_info:
     type: section
   pw_costs:
