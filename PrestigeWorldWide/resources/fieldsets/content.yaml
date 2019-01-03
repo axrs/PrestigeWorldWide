@@ -1,0 +1,108 @@
+fields:
+  dates:
+    type: section
+    display: "Date & time info"
+  pw_start_date:
+    type: date
+    display: "Starts"
+    width: 50
+    require_time: true
+  pw_end_date:
+    type: date
+    display: "Ends"
+    width: 50
+    require_time: true
+  pw_recurring:
+    type: toggle
+    display: "This is a recurring event"
+    default: false
+  pw_recurring_frequency:
+    type: radio
+    display: "Frequency"
+    inline: true
+    options:
+      DAILY: Daily
+      WEEKLY: Weekly
+      MONTHLY: Monthly
+      YEARLY: Yearly
+    show_when:
+      pw_recurring: true
+  pw_recurring_interval:
+    type: text
+    display: "Every #"
+    mode: number
+    width: 25
+    show_when:
+      pw_recurring_frequency: not null
+      pw_recurring: true
+    validate:
+  pw_recurring_ends:
+    type: select
+    display: "Series ends"
+    width: 25
+    options:
+      after: After
+      on: On
+    default: after
+    show_when:
+      pw_recurring_frequency: not null
+      pw_recurring: true
+  pw_recurring_count:
+    type: text
+    display: "# Of events"
+    width: 25
+    mode: number
+    show_when:
+      pw_recurring_frequency: not null
+      pw_recurring_ends: after
+  pw_recurring_until:
+    type: date
+    display: "Date"
+    width: 25
+    show_when:
+      pw_recurring_frequency: not null
+      pw_recurring_ends: on
+      pw_recurring: true
+  Other_info:
+    type: section
+  pw_costs:
+    type: text
+    display: "Cost"
+    instructions: "Add anything you want. You can say it's free, 1 dollar, 1 euro or nothing at all"
+    width: 50
+  pw_location:
+    type: text
+    display: "Address or location"
+  pw_url:
+    type: text
+    display: "External url"
+    instructions: "Optional, can be used to point to a signup page or festival site"
+  pw_organizer:
+    type: text
+    display: "Organizer"
+    instructions: "Optional"
+  pw_organizer_email:
+    type: text
+    display: "Emailaddress organizer"
+    instructions: "Optional"
+    mode: email
+  Signup form:
+    type: section
+  pw_has_form:
+    type: toggle
+    display: "People can sign up for this event"
+    default: false
+  pw_form:
+    type: suggest
+    display: "Which form should I use for signups?"
+    mode: prestige-world-wide
+    max_items: 1
+    show_when:
+      pw_has_form: true
+  pw_max_participants:
+    type: text
+    display: "Maximum number of participants"
+    instructions: "Keep empty if there is no limit."
+    validate: integer
+    show_when:
+      pw_has_form: true

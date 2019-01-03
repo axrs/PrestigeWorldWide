@@ -8,6 +8,7 @@ Prestige Worldwide can output a block of html for you, but it comes with a lot o
 
 * Show a list of events with custom filters
 * Adds event info to the collection you choose
+* Add and show recurring events
 * Talks to Statamic forms to count signups
 * ICS & Google calendar export for each event
 * And more! Check the docs for all tags and options

@@ -2,6 +2,8 @@
 
 namespace Statamic\Addons\PrestigeWorldWide;
 
+use Recurr\Rule;
+use Recurr\Transformer;
 use Statamic\Contracts\Forms\Submission;
 use Statamic\API\Form;
 use Statamic\API\Entry;
@@ -32,10 +34,12 @@ class PrestigeWorldWideTags extends Tags
      *
      * @return string
      */
-    public function startDate()
+    private function startDate()
     {
         if (isset($this->context['pw_start_date'])) {
             return $this->context['pw_start_date'];
+        } else  {
+            return NULL;
         }
     }
 
@@ -44,83 +48,87 @@ class PrestigeWorldWideTags extends Tags
      *
      * @return string
      */
-    public function endDate()
+    private function endDate()
     {
         if (isset($this->context['pw_end_date'])) {
             return $this->context['pw_end_date'];
+        } else  {
+            return NULL;
         }
     }
 
     /**
-     * The {{ prestige_world_wide:costs }} tag
+     * The {{ prestige_world_wide:recurring }} tag
      *
-     * @return string
+     * @return array
      */
-    public function costs()
+    public function recurring()
     {
-        if (isset($this->context['pw_costs'])) {
-            return $this->context['pw_costs'];
-        }
-    }
 
+        if ($this->context['pw_recurring'] == true) {
 
-    /**
-     * The {{ prestige_world_wide:location }} tag
-     *
-     * @return string
-     */
-    public function location()
-    {
-        if (isset($this->context['pw_location'])) {
-            return $this->context['pw_location'];
-        }
-    }
+            $timezone  = $this->context['settings']['system']['timezone'];
+            $startdate = new \DateTime($this->startDate());
+            $enddate = new \DateTime($this->endDate());
 
-    /**
-     * The {{ prestige_world_wide:url }} tag
-     *
-     * @return string
-     */
-    public function url()
-    {
-        if (isset($this->context['pw_url'])) {
-            return $this->context['pw_url'];
-        }
-    }
+            if (isset($this->context['pw_recurring_ends'])) {
+                $ends = $this->context['pw_recurring_ends'];
+            }
+            if (isset($this->context['pw_recurring_frequency'])) {
+                $frequency = $this->context['pw_recurring_frequency'];
+            }
+            if (isset($this->context['pw_recurring_count'])) {
+                $count = $this->context['pw_recurring_count'];
+            }
+            if (isset($this->context['pw_recurring_until'])) {
+                $until = new \DateTime($this->context['pw_recurring_until']);
+            }
+            if (isset($this->context['pw_recurring_interval'])) {
+                $interval = $this->context['pw_recurring_interval'];
+            }
 
-    /**
-     * The {{ prestige_world_wide:organizer }} tag
-     *
-     * @return string
-     */
-    public function organizer()
-    {
-        if (isset($this->context['pw_organizer'])) {
-            return $this->context['pw_organizer'];
-        }
-    }
+            $transformer = new Transformer\ArrayTransformer();
 
-    /**
-     * The {{ prestige_world_wide:organizer_email }} tag
-     *
-     * @return string
-     */
-    public function organizer_email()
-    {
-        if (isset($this->context['pw_organizer_email'])) {
-            return $this->context['pw_organizer_email'];
-        }
-    }
+            if ($ends == 'after') {
 
-    /**
-     * The {{ prestige_world_wide:max_participants }} tag
-     *
-     * @return string
-     */
-    public function maxParticipants()
-    {
-        if (isset($this->context['pw_max_participants'])) {
-            return $this->context['pw_max_participants'];
+                $rule = (new \Recurr\Rule)
+                    ->setStartDate($startdate)
+                    ->setEndDate($enddate)
+                    ->setTimezone($timezone)
+                    ->setCount($count)
+                    ->setInterval($interval)
+                    ->setFreq($frequency);
+
+            } else {
+
+                $rule = (new \Recurr\Rule)
+                    ->setStartDate($startdate)
+                    ->setEndDate($enddate)
+                    ->setTimezone($timezone)
+                    ->setFreq($frequency)
+                    ->setInterval($interval)
+                    ->setUntil($until);
+
+            }
+
+            $ruledates = $transformer->transform($rule);
+            $dates = [];
+
+            foreach ($ruledates as $date) {
+
+                $startdate = $date->getStart();
+                $carbon_start = $this->dtCarbon($startdate);
+                $enddate = $date->getEnd();
+                $carbon_end = $this->dtCarbon($enddate);
+
+                $item = array(
+                    'start' => $carbon_start->toDateTimeString(),
+                    'end' => $carbon_end->toDateTimeString()
+                );
+                $dates[] = $item;
+
+            }
+            return $this->parseLoop($dates);
         }
     }
 
@@ -242,9 +250,19 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:has_form }} tag
+     * Transform a datetime object to Carbon
      *
      * @return string
+     */
+    private function dtCarbon($date)
+    {
+        return Carbon::instance($date);
+    }
+
+    /**
+     * The {{ prestige_world_wide:has_form }} tag
+     *
+     * @return true/false
      */
     public function hasForm()
     {
@@ -256,9 +274,21 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:is_full }} tag
+     * The {{ prestige_world_wide:max_participants }} tag
      *
      * @return string
+     */
+    private function maxParticipants()
+    {
+        if (isset($this->context['pw_max_participants'])) {
+            return $this->context['pw_max_participants'];
+        }
+    }
+
+    /**
+     * The {{ prestige_world_wide:is_full }} tag
+     *
+     * @return true/false
      */
     public function isFull()
     {
@@ -288,93 +318,6 @@ class PrestigeWorldWideTags extends Tags
         } else {
             return false;
         }
-    }
-
-    /**
-     * Check if this event has a form
-     *
-     * @return string
-     */
-    private function form()
-    {
-        if (isset($this->context['pw_has_form'])) {
-            return true;
-        }
-    }
-
-    /**
-     * The {{ prestige_world_wide:info }} tag
-     *
-     * @return string|array
-     */
-    public function info()
-    {
-        //
-        $html = '<div class="pw_info">';
-
-        $html .= '<div class="pw_info__row pw_info__row--startdate">';
-        $html .= '<span class="pw_info__header pw_info__header--startdate">Start date:</span> <span class="pw_info__data pw_info__data--startdate">' . $this->startDate() . '</span>';
-        $html .= '</div>';
-        $html .= '<div class="pw_info__row pw_info__row--enddate">';
-        $html .= '<span class="pw_info__header pw_info__header--enddate">End date:</span> <span class="pw_info__data pw_info__data--enddate">' . $this->endDate() . '</span>';
-        $html .= '</div>';
-        if ($this->costs()) {
-            $html .= '<div class="pw_info__row pw_info__row--cost">';
-            $html .= '<span class="pw_info__header pw_info__header--cost">Cost:</span> <span class="pw_info__data pw_info__data--cost">' . $this->costs() . '</span>';
-            $html .= '</div>';
-        }
-        if ($this->location()) {
-            $html .= '<div class="pw_info__row pw_info__row--location">';
-            $html .= '<span class="pw_info__header pw_info__header--location">Location:</span> <span class="pw_info__data pw_info__data--startdate--location">' . $this->location(). '</span>';
-            $html .= '</div>';
-        }
-        if (!$this->isFull()) {
-            if ($this->participants()) {
-                $html .= '<div class="pw_info__row pw_info__row--participants">';
-                $html .= '<span class="pw_info__header pw_info__header--participants">Signups:</span> <span class="pw_info__data pw_info__data--startdate--participants">' . $this->participants(). '</span>';
-                $html .= '</div>';
-            }
-        }
-        if (!$this->isFull()) {
-            if ($this->maxParticipants()) {
-                $html .= '<div class="pw_info__row pw_info__row--maxparticipants">';
-                $html .= '<span class="pw_info__header pw_info__header--maxparticipants">Max # of participants:</span> <span class="pw_info__data pw_info__data--startdate--maxparticipants">' . $this->maxParticipants(). '</span>';
-                $html .= '</div>';
-            }
-        }
-        if ($this->url()) {
-            $html .= '<div class="pw_info__row pw_info__row--url">';
-            $html .= '<a href="' . $this->url() .  '" class="pw_info__url" title="More info">';
-            if ($this->organizer() == true) {
-                $html .= $this->organizer();
-            }
-            $html .= '</a>';
-            $html .= '</div>';
-        }
-        $html .= '<div class="pw_info__row pw_info__row--export">';
-        $html .= '<ul class="pw_export">';
-        $html .= '<li>';
-        $html .= '<a href="' . $this->icalendar() .  '" class="pw_export__ical" title="Download ICS file">';
-        $html .= '<span>Icalendar</span>';
-        $html .= '</a>';
-        $html .= '</li>';
-        $html .= '<li>';
-        $html .= '<a href="' . $this->googleCalendar() .  '" class="pw_export__gcal" title="Add to Google Calendar">';
-        $html .= '<span>Add to Google Calendar</span>';
-        $html .= '</a>';
-        $html .= '</li>';
-        $html .= '</ul>';
-        $html .= '</div>';
-        if (!$this->form()) {
-            if ($this->isFull()) {
-                $html .= '<div class="pw_info__row pw_info__row--full">';
-                $html .= "<span class='pw_info__header pw_info__header--full'>Sorry, it's full!</span";
-                $html .= '</div>';
-            }
-        }
-
-        $html .= '</div>';
-        return $html;
     }
 
     /**
