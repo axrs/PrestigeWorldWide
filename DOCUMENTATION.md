@@ -46,7 +46,6 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
 * Organizer: `{{ pw_organizer }}`
 * Organizer email: `{{ pw_organizer_email }}`
 * Max participants: `{{ pw_max_participants }}`
-* Has a form: `{{ pw_has_form }}`
 
 ### Tags
 * [Recurring dates](#recurring)
@@ -71,11 +70,13 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
 
 **Example**   
 
-    <ul>
-        {{ prestige_world_wide:recurring }}
-        <li>{{ start format="j F Y, G:i" }} - {{ end format="j F Y, G:i" }}</li>
-        {{ /prestige_world_wide:recurring }}
-    </ul>
+    {{ if pw_recurring }}
+        <ul>
+            {{ prestige_world_wide:recurring }}
+            <li>{{ start format="j F Y, G:i" }} - {{ end format="j F Y, G:i" }}</li>
+            {{ /prestige_world_wide:recurring }}
+        </ul>
+    {{ /if }}
 
 ## Number of signups <a id="participants"></a>
 <table>
@@ -111,7 +112,7 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
         It's not full! :-D
     {{ /if }}
 
-## Export ICS file <a id="ics"></a>
+## Download ICS file <a id="ics"></a>
 <table>
     <tbody>
         <tr>
@@ -142,4 +143,14 @@ The idea of PW is to give you the freedom to build your eventpage the way you wa
     <a href="{{ prestige_world_wide:google_calendar }}" title="Add to Google Calendar">Google Calendar</a>
 
 ## Signup form <a id="form"></a>
-If you selected a form you will have to add the code for that form on the event page. More info about adding a form is [in the Statamic docs here](https://docs.statamic.com/forms#main). You don't have to add any extra fields for PW, it does that by itself. __The only requirement is that the form must exist on the event page__. You can use 1 form for all events, or use 1 form for each event. It's up to you. Wrap the form in `{{ if {prestige_world_wide:has_form} }}{{ if !{prestige_world_wide:is_full} }}` to hide it when the event is full.
+If you selected a form you will have to add the code for that form on the event page. More info about adding a form is [in the Statamic docs here](https://docs.statamic.com/forms#main). You don't have to add any extra fields for PW, it does that by itself. __The only requirement is that the form must exist on the event page__. You can use 1 form for all events, or use 1 form for each event. It's up to you. Wrap the form in
+
+    {{ if {prestige_world_wide:has_form} }}
+        {{ if !{prestige_world_wide:is_full} }}
+            {{ form:create }}{{ /form:create }}
+        {{ else }}
+            It's full!
+        {{ /if }}
+    {{ /if }}
+
+to hide it or show a message when the event is full.
