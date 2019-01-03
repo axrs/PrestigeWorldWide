@@ -68,68 +68,97 @@ class PrestigeWorldWideTags extends Tags
 
         if ($this->context['pw_recurring'] == true) {
 
-            $timezone  = $this->context['settings']['system']['timezone'];
-            $startdate = new \DateTime($this->startDate());
-            $enddate = new \DateTime($this->endDate());
+            if ($this->context['pw_recurring_frequency'] != 'CUSTOM') {
 
-            if (isset($this->context['pw_recurring_ends'])) {
-                $ends = $this->context['pw_recurring_ends'];
-            }
-            if (isset($this->context['pw_recurring_frequency'])) {
-                $frequency = $this->context['pw_recurring_frequency'];
-            }
-            if (isset($this->context['pw_recurring_count'])) {
-                $count = $this->context['pw_recurring_count'];
-            }
-            if (isset($this->context['pw_recurring_until'])) {
-                $until = new \DateTime($this->context['pw_recurring_until']);
-            }
-            if (isset($this->context['pw_recurring_interval'])) {
-                $interval = $this->context['pw_recurring_interval'];
-            }
+                $timezone  = $this->context['settings']['system']['timezone'];
+                $startdate = new \DateTime($this->startDate());
+                $enddate = new \DateTime($this->endDate());
 
-            $transformer = new Transformer\ArrayTransformer();
+                if (isset($this->context['pw_recurring_ends'])) {
+                    $ends = $this->context['pw_recurring_ends'];
+                }
+                if (isset($this->context['pw_recurring_frequency'])) {
+                    $frequency = $this->context['pw_recurring_frequency'];
+                }
+                if (isset($this->context['pw_recurring_count'])) {
+                    $count = $this->context['pw_recurring_count'];
+                }
+                if (isset($this->context['pw_recurring_until'])) {
+                    $until = new \DateTime($this->context['pw_recurring_until']);
+                }
+                if (isset($this->context['pw_recurring_interval'])) {
+                    $interval = $this->context['pw_recurring_interval'];
+                }
 
-            if ($ends == 'after') {
+                $transformer = new Transformer\ArrayTransformer();
 
-                $rule = (new \Recurr\Rule)
-                    ->setStartDate($startdate)
-                    ->setEndDate($enddate)
-                    ->setTimezone($timezone)
-                    ->setCount($count)
-                    ->setInterval($interval)
-                    ->setFreq($frequency);
+                if ($ends == 'after') {
+
+                    $rule = (new \Recurr\Rule)
+                        ->setStartDate($startdate)
+                        ->setEndDate($enddate)
+                        ->setTimezone($timezone)
+                        ->setCount($count)
+                        ->setInterval($interval)
+                        ->setFreq($frequency);
+
+                } else {
+
+                    $rule = (new \Recurr\Rule)
+                        ->setStartDate($startdate)
+                        ->setEndDate($enddate)
+                        ->setTimezone($timezone)
+                        ->setFreq($frequency)
+                        ->setInterval($interval)
+                        ->setUntil($until);
+
+                }
+
+                $ruledates = $transformer->transform($rule);
+                $dates = [];
+
+                foreach ($ruledates as $date) {
+
+                    $startdate = $date->getStart();
+                    $carbon_start = $this->dtCarbon($startdate);
+                    $enddate = $date->getEnd();
+                    $carbon_end = $this->dtCarbon($enddate);
+
+                    $item = array(
+                        'start' => $carbon_start->toDateTimeString(),
+                        'end' => $carbon_end->toDateTimeString()
+                    );
+                    $dates[] = $item;
+
+                }
+                return $this->parseLoop($dates);
 
             } else {
 
-                $rule = (new \Recurr\Rule)
-                    ->setStartDate($startdate)
-                    ->setEndDate($enddate)
-                    ->setTimezone($timezone)
-                    ->setFreq($frequency)
-                    ->setInterval($interval)
-                    ->setUntil($until);
+                $customdates = $this->context['pw_recurring_manual'];
+                $dates = [];
 
-            }
-
-            $ruledates = $transformer->transform($rule);
-            $dates = [];
-
-            foreach ($ruledates as $date) {
-
-                $startdate = $date->getStart();
-                $carbon_start = $this->dtCarbon($startdate);
-                $enddate = $date->getEnd();
-                $carbon_end = $this->dtCarbon($enddate);
-
-                $item = array(
-                    'start' => $carbon_start->toDateTimeString(),
-                    'end' => $carbon_end->toDateTimeString()
+                // Add the start & end date of the current event
+                $dates[] = array(
+                    'start' => $this->startDate(),
+                    'end' => $this->endDate()
                 );
-                $dates[] = $item;
+
+                foreach ($customdates as $date) {
+
+                    $startdate = $date['pw_recurring_manual_start'];
+                    $enddate = $date['pw_recurring_manual_end'];
+
+                    $item = array(
+                        'start' => $startdate,
+                        'end' => $enddate
+                    );
+                    $dates[] = $item;
+
+                }
+                return $this->parseLoop($dates);
 
             }
-            return $this->parseLoop($dates);
         }
     }
 
@@ -170,7 +199,7 @@ class PrestigeWorldWideTags extends Tags
     }
 
     /**
-     * The {{ prestige_world_wide:google_calendar }} tag
+     * Return a link
      *
      * @return string
      */
@@ -188,19 +217,6 @@ class PrestigeWorldWideTags extends Tags
         } elseif ($type == 'google') {
             return $link->google();
         }
-    }
-
-    /**
-     * Remove certain chars from a date to make a RFC339 datetime
-     *
-     * @return string
-     */
-    private function rfc3339($date)
-    {
-        $chars = array('-', ':');
-        $rfc3339 = str_replace($chars, '', $date);
-        $rfc3339 = substr($rfc3339, 0, strpos($rfc3339, '+'));
-        return $rfc3339;
     }
 
     /**

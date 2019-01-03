@@ -25,6 +25,7 @@ fields:
       WEEKLY: Weekly
       MONTHLY: Monthly
       YEARLY: Yearly
+      CUSTOM: Custom
     show_when:
       pw_recurring: true
   pw_recurring_interval:
@@ -33,9 +34,8 @@ fields:
     mode: number
     width: 25
     show_when:
-      pw_recurring_frequency: not null
+      pw_recurring_frequency: [DAILY, WEEKLY, MONTHLY, YEARLY]
       pw_recurring: true
-    validate:
   pw_recurring_ends:
     type: select
     display: "Series ends"
@@ -45,7 +45,7 @@ fields:
       on: On
     default: after
     show_when:
-      pw_recurring_frequency: not null
+      pw_recurring_frequency: [DAILY, WEEKLY, MONTHLY, YEARLY]
       pw_recurring: true
   pw_recurring_count:
     type: text
@@ -53,16 +53,33 @@ fields:
     width: 25
     mode: number
     show_when:
-      pw_recurring_frequency: not null
+      pw_recurring_frequency: [DAILY, WEEKLY, MONTHLY, YEARLY]
       pw_recurring_ends: after
   pw_recurring_until:
     type: date
     display: "Date"
     width: 25
     show_when:
-      pw_recurring_frequency: not null
+      pw_recurring_frequency: [DAILY, WEEKLY, MONTHLY, YEARLY]
       pw_recurring_ends: on
       pw_recurring: true
+  pw_recurring_manual:
+    type: grid
+    display: "Custom events"
+    instructions: "The start & end date of this event will be added to the list"
+    fields:
+      pw_recurring_manual_start:
+        type: date
+        display: "Start"
+        require_time: true
+      pw_recurring_manual_end:
+        type: date
+        display: "End"
+        require_time: true
+    add_row: "Add event"
+    show_when:
+        pw_recurring_frequency: CUSTOM
+        pw_recurring: true
   Other_info:
     type: section
   pw_costs:

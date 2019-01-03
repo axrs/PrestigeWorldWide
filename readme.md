@@ -6,7 +6,8 @@ Prestige Worldwide adds an event manager to Statamic! This isn't a full fledged 
 
 * Show a list of events with custom filters
 * Adds event info to the collection you choose
-* Add and show recurring events
+* Add and show recurring events using a pattern
+* Or add a custom series of events
 * Talks to Statamic forms to count signups
 * ICS & Google calendar export for each event
 * And more! Check the docs for all tags and options
