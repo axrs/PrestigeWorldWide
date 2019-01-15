@@ -11,7 +11,6 @@ use Statamic\Data\Data;
 use Statamic\API\Collection;
 use Statamic\Extend\Listener;
 use Statamic\Events\Data\FindingFieldset;
-use Illuminate\Support\Facades\Cache;
 use Statamic\Contracts\Forms\Submission;
 use Illuminate\Http\Response;
 
@@ -39,22 +38,26 @@ class PrestigeWorldWideListener extends Listener
         // Get the saved events collection from the settings
         $this->eventsCollection = $this->getConfig('my_collections_field');
 
-        // Check if the entry is in the correct collection
-        if ($eventCollection->data->collectionName() == $this->eventsCollection) {
+        // Check if the entry is in the correct collection and if this is a page
+        // dd($eventCollection->type);
+        if ($eventCollection->type == 'entry') {
 
-            $fieldset = $eventCollection->fieldset;
-            $sections = $fieldset->sections();
-            $fields = YAML::parse(File::get($this->getDirectory().'/resources/fieldsets/content.yaml'))['fields'];
+            if ($eventCollection->data->collectionName() == $this->eventsCollection) {
 
-            $sections['event'] = [
-                'display' => 'Event info',
-                'fields' => $fields
-            ];
+                $fieldset = $eventCollection->fieldset;
+                $sections = $fieldset->sections();
+                $fields = YAML::parse(File::get($this->getDirectory().'/resources/fieldsets/content.yaml'))['fields'];
 
-            $contents = $fieldset->contents();
-            $contents['sections'] = $sections;
-            $fieldset->contents($contents);
+                $sections['event'] = [
+                    'display' => 'Event info',
+                    'fields' => $fields
+                ];
 
+                $contents = $fieldset->contents();
+                $contents['sections'] = $sections;
+                $fieldset->contents($contents);
+
+            }
         }
     }
 
