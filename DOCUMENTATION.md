@@ -17,22 +17,22 @@ You can also select which form to use for signups. And if you add a maximum numb
 Use these for a list of events. PW adds custom filters to a Statamic collection, the rest is pure Statamic. [More info about collections is here](https://docs.statamic.com/tags/collection).
 
 ## Get all future events <a id="future"></a>
-See what we've done there?
+In this example I'm using the Redwood partial 'block', but you'll probably want to change that to your own partial. Remove `paginate="true" limit="10" as="pw_events"`, `{{ pw_events }}`, and `{{ partial:pagination }}` if you don't care about pagination. Change `collection:blog` to the collection you use for your events.
 
-    {{ collection:events filter="prestige_world_wide" remove="past" paginate="true" as="posts" limit="10" }}
-        {{ posts scope="pw_start_date" }}
-        {{ partial:block }}
-        {{ /posts }}
-        {{ partial:pagination }}
-    {{ /collection:events }}
+    {{ collection:blog filter="prestige_world_wide" remove="past" paginate="true" limit="10" as="pw_events" }}
+        {{ pw_events }}
+            {{ partial:block }}
+            {{ partial:pagination }}
+        {{ /pw_events }}
+    {{ /collection:blog }}
 
 ## Get all past events <a id="past"></a>
-    {{ collection:events filter="prestige_world_wide" remove="future" paginate="true" as="posts" limit="10" }}
-        {{ posts scope="pw_start_date" }}
-        {{ partial:block }}
-        {{ /posts }}
-        {{ partial:pagination }}
-    {{ /collection:events }}
+    {{ collection:blog filter="prestige_world_wide" remove="future" paginate="true" limit="10" as="pw_events" }}
+        {{ pw_events }}
+            {{ partial:block }}
+            {{ partial:pagination }}
+        {{ /pw_events }}
+    {{ /collection:blog }}
 
 ## Detail page info & tags <a id="detail"></a>
 The idea of PW is to give you the freedom to build your eventpage the way you want to. You can use the following variables and tags:
