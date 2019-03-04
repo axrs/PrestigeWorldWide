@@ -1,0 +1,11 @@
+routes:
+  # GET request to /cp/addons/addon-name using the index method
+  /:
+    as: addons.pw_editor
+    uses: index
+  /edit:
+    as: addons.pw_editor.edit
+    uses: edit
+  post@store:
+    as: addons.pw_editor.store
+    uses: store

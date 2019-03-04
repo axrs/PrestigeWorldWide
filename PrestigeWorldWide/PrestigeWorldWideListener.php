@@ -23,10 +23,22 @@ class PrestigeWorldWideListener extends Listener
      * @var array
      */
     public $events = [
+        'cp.nav.created' => 'addNavItems',
         FindingFieldset::class => 'handle',
         'Form.submission.creating' => 'handleSubmission',
         'response.created' => 'handleResponse'
     ];
+
+    public function addNavItems($nav)
+    {
+        // Create the first level navigation item
+        // Note: by using route('store'), it assumes you've set up a route named 'store'.
+        $menus = Nav::item('Event manager setup')->route('addons.pw_editor')->icon('text-document-inverted');
+
+        // Finally, add our first level navigation item
+        // to the navigation under the 'tools' section.
+        $nav->addTo('tools', $menus);
+    }
 
     /**
      * Add the events tab to the chosen entry
