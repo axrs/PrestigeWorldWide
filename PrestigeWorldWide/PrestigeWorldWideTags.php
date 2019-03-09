@@ -206,17 +206,28 @@ class PrestigeWorldWideTags extends Tags
      */
     private function calendarLink($type)
     {
-        $tz = new \DateTimeZone(Config::get('system.timezone'));
+        // Use the system or the event timezone
+        if ($this->getConfig('event_timezone') == false) {
+            $tz = new \DateTimeZone(Config::get('system.timezone'));
+        } else {
+            $tz = new \DateTimeZone($this->context['pw_timezone']);
+        }
+
+        // Format the start & end dates
         $from = \DateTime::createFromFormat('Y-m-d H:i', $this->startDate(), $tz);
         $to = \DateTime::createFromFormat('Y-m-d H:i', $this->endDate(), $tz);
 
+        // Get the description
+        $description = isset($this->context['pw_description']) ? $this->context['pw_description'] : "";
+
+        // Add an optional location
         if (isset($this->context['pw_location'])) {
             $link = Link::create(urlencode($this->context['title']), $from, $to)
-            ->description('')
+            ->description($description)
             ->address($this->context['pw_location']);
         } else {
             $link = Link::create(urlencode($this->context['title']), $from, $to)
-            ->description('');
+            ->description($description);
         }
 
         if ($type == 'ics') {

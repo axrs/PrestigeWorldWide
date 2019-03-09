@@ -2,3 +2,5 @@ fields:
   my_collections_field:
     type: collections
     max_items: 1
+  event_timezone:
+    type: toggle
