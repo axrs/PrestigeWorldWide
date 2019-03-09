@@ -38,7 +38,7 @@ class PrestigeWorldWideListener extends Listener
     {
 
         // Get the current URL
-        $this->url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $this->url = $_SERVER['REQUEST_URI'];
 
         // Get the saved events collection from the settings
         $this->eventsCollection = $this->getConfig('my_collections_field');
@@ -49,6 +49,11 @@ class PrestigeWorldWideListener extends Listener
             $fieldset = $event->fieldset;
             $sections = $fieldset->sections();
             $fields = YAML::parse(File::get($this->getDirectory() . '/resources/fieldsets/content.yaml'))['fields'];
+
+            if ($this->getConfig('event_timezone') == false) {
+                // Remove the custom timezone based on the addon setting
+                unset($fields['pw_timezone']);
+            }
 
             $sections['event'] = [
                 'display' => 'Event info',
