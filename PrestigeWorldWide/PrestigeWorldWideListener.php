@@ -23,7 +23,8 @@ class PrestigeWorldWideListener extends Listener
      * @var array
      */
     public $events = [
-        FindingFieldset::class => 'handle',
+        \Statamic\Events\Data\FindingFieldset::class => 'addEventTab',
+        \Statamic\Events\Data\PublishFieldsetFound::class => 'addEventTab',
         'Form.submission.creating' => 'handleSubmission',
         'response.created' => 'handleResponse'
     ];
@@ -33,31 +34,32 @@ class PrestigeWorldWideListener extends Listener
      *
      * @var array
      */
-    public function handle(FindingFieldset $eventCollection)
+    public function addEventTab($event)
     {
+
+        // Get the current URL
+        $this->url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+
         // Get the saved events collection from the settings
         $this->eventsCollection = $this->getConfig('my_collections_field');
 
-        // Check if the entry is in the correct collection and if this is a page
-        // dd($eventCollection->type);
-        if ($eventCollection->type == 'entry') {
+        // Check if the entry is in the correct collection
+        if (($event->type == 'entry') && (strpos($this->url, $this->eventsCollection) == true)) {
 
-            if ($eventCollection->data->collectionName() == $this->eventsCollection) {
+            $fieldset = $event->fieldset;
+            $sections = $fieldset->sections();
+            $fields = YAML::parse(File::get($this->getDirectory() . '/resources/fieldsets/content.yaml'))['fields'];
 
-                $fieldset = $eventCollection->fieldset;
-                $sections = $fieldset->sections();
-                $fields = YAML::parse(File::get($this->getDirectory().'/resources/fieldsets/content.yaml'))['fields'];
+            $sections['event'] = [
+                'display' => 'Event info',
+                'fields' => $fields
+            ];
 
-                $sections['event'] = [
-                    'display' => 'Event info',
-                    'fields' => $fields
-                ];
+            $contents = $fieldset->contents();
+            $contents['sections'] = $sections;
 
-                $contents = $fieldset->contents();
-                $contents['sections'] = $sections;
-                $fieldset->contents($contents);
+            $fieldset->contents($contents);
 
-            }
         }
     }
 
