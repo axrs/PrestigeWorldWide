@@ -33,11 +33,11 @@ class PrestigeWorldWideListener extends Listener
     {
         // Create the first level navigation item
         // Note: by using route('store'), it assumes you've set up a route named 'store'.
-        $menus = Nav::item('Event manager setup')->route('addons.pw_editor')->icon('text-document-inverted');
+        $menus = Nav::item('Prestige Worldwide')->route('addons.pw_editor')->icon('text-document-inverted');
 
         // Finally, add our first level navigation item
         // to the navigation under the 'tools' section.
-        $nav->addTo('tools', $menus);
+        $nav->addTo('configure', $menus);
     }
 
     /**

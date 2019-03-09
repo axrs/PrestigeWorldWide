@@ -3,6 +3,9 @@ routes:
   /:
     as: addons.pw_editor
     uses: index
+  # /cp/fieldsets-json/prestige-world-wide/edit:
+  #   as: addons.pw_editor.edit
+  #   uses: edit
   /edit:
     as: addons.pw_editor.edit
     uses: edit

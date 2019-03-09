@@ -48,7 +48,8 @@
 
 
 <script>
-import Fieldset from '../../publish/Fieldset';
+// import Fieldset from '../../publish/Fieldset';
+import Fieldset from '../../../../../../../../statamic/resources/js/components/publish/Fieldset';
 import { Sortable } from '@shopify/draggable';
 import SectionsSection from './Section.vue';
 
