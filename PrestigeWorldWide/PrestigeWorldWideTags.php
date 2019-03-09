@@ -11,6 +11,7 @@ use Statamic\API\Entry;
 use Statamic\Extend\Collection;
 use Statamic\Extend\Tags;
 use Statamic\API\Folder;
+use Statamic\API\Config;
 use Illuminate\Support\Facades\Storage;
 use Statamic\Data\DataCollection;
 use Statamic\API\File;
@@ -205,12 +206,18 @@ class PrestigeWorldWideTags extends Tags
      */
     private function calendarLink($type)
     {
-        $from = \DateTime::createFromFormat('Y-m-d H:i', $this->startDate());
-        $to = \DateTime::createFromFormat('Y-m-d H:i', $this->endDate());
+        $tz = new \DateTimeZone(Config::get('system.timezone'));
+        $from = \DateTime::createFromFormat('Y-m-d H:i', $this->startDate(), $tz);
+        $to = \DateTime::createFromFormat('Y-m-d H:i', $this->endDate(), $tz);
 
-        $link = Link::create(urlencode($this->context['title']), $from, $to)
+        if (isset($this->context['pw_location'])) {
+            $link = Link::create(urlencode($this->context['title']), $from, $to)
             ->description('')
             ->address($this->context['pw_location']);
+        } else {
+            $link = Link::create(urlencode($this->context['title']), $from, $to)
+            ->description('');
+        }
 
         if ($type == 'ics') {
             return $link->ics();
@@ -297,18 +304,18 @@ class PrestigeWorldWideTags extends Tags
      */
     private function submissions($formname, $entry_id)
     {
-        $substorage     = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
-        $c              = 0;
-
-        foreach ($substorage as $sub) {
-            $file = File::get($sub);
-            $yaml = Yaml::parse($file);
-
-            if ($yaml['pw_id'] == $entry_id) {
-                $c++;
-            }
-        }
-        return $c;
+        // $substorage = Folder::getFilesByType('/site/storage/forms/' . $formname, 'yaml');
+        // $c = 0;
+        //
+        // foreach ($substorage as $sub) {
+        //     $file = File::get($sub);
+        //     $yaml = Yaml::parse($file);
+        //
+        //     if ($yaml['pw_id'] == $entry_id) {
+        //         $c++;
+        //     }
+        // }
+        // return $c;
     }
 
 }
