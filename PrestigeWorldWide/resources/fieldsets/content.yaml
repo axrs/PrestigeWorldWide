@@ -103,7 +103,7 @@ fields:
     display: "Organizer"
   pw_organizer_email:
     type: text
-    display: "Emailaddress organizer"
+    display: "Organizer's email address"
     mode: email
   Signup form:
     type: section
