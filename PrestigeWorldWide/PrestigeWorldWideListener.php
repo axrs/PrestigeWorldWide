@@ -55,9 +55,11 @@ class PrestigeWorldWideListener extends Listener
                 unset($fields['pw_timezone']);
             }
 
+            $extensionFields = $fieldset->contents()['sections']['event']['fields'];
+
             $sections['event'] = [
                 'display' => 'Event info',
-                'fields' => $fields
+                'fields' => array_replace_recursive($fields, $extensionFields ?: array())
             ];
 
             $contents = $fieldset->contents();
