@@ -2,22 +2,16 @@
 
 namespace Statamic\Addons\PrestigeWorldWide;
 
-use Recurr\Rule;
+use Carbon\Carbon;
 use Recurr\Transformer;
 use Spatie\CalendarLinks\Link;
-use Statamic\Contracts\Forms\Submission;
+use Statamic\API\Config;
 use Statamic\API\Form;
-use Statamic\API\Entry;
+use Statamic\API\Page;
+use Statamic\API\Str;
+use Statamic\API\URL;
 use Statamic\Extend\Collection;
 use Statamic\Extend\Tags;
-use Statamic\API\Folder;
-use Statamic\API\Config;
-use Illuminate\Support\Facades\Storage;
-use Statamic\Data\DataCollection;
-use Statamic\API\File;
-use Statamic\API\Yaml;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
 
 class PrestigeWorldWideTags extends Tags
 {
@@ -29,6 +23,39 @@ class PrestigeWorldWideTags extends Tags
     public function index()
     {
         //
+    }
+
+    private function extractStartDate(): callable
+    {
+        return function ($event) {
+            $date = $event->get('pw_start_date');
+            return (new \DateTime($date));
+        };
+    }
+
+    private function year(): callable
+    {
+        return function ($dateTime) {
+            return $dateTime->format('Y');
+        };
+    }
+
+    public function archive()
+    {
+        $locale = $this->get('locale', site_locale());
+        $from = $this->get(['from', 'folder', 'url'], URL::getCurrent());
+        $from = Str::ensureLeft($from, '/');
+        $from = URL::getDefaultUri($locale, $from);
+        $collection = Page::whereUri($from)->entries();
+        $years = $collection->map($this->extractStartDate())
+            ->map($this->year())
+            ->unique()
+            ->sort()
+            ->reverse()
+            ->map(function ($year) {
+                return ['year' => $year];
+            });
+        return $this->parseLoop($years);
     }
 
     /**
